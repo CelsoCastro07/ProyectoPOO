@@ -41,7 +41,7 @@ public class TransaccionControl {
         System.out.println("Ingrese una opción: "   );
     }
 
-    /* REGISTRAR */
+    /* REGISTRAR CATEGORIAS */
     public void registrar(Scanner sc){
         sc.nextLine();
         System.out.println("Ingrese una categoría: ");
@@ -57,27 +57,20 @@ public class TransaccionControl {
         }
     }
 
-
-
-
     /* REGISTRAR INGRESO */
     private void registrarIn(String cat){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Ingrese el valor: ");
         double valor = scanner.nextDouble();
-
         scanner.nextLine();
-
         System.out.println("Ingrese la descripción: ");
         String descripcion = scanner.nextLine();
-
         System.out.println("Ingrese la fecha de inicio(dd/MM/yyyy): ");
         String fechaIn = scanner.nextLine();
         while(fechaIn.length() != 10){
             System.out.println("Ingrese con el formato por favor(dd/MM/yyyy): ");
             fechaIn = scanner.nextLine();
         }
-
         System.out.println("ingrese la repetición (sin repetición, una vez por día, por semana, por mes)");
         String repeticion = scanner.nextLine();
 
@@ -85,12 +78,9 @@ public class TransaccionControl {
             System.out.println("ingrese correctamente la repetición (sin repetición, una vez por día, por semana, por mes): ");
             repeticion = scanner.nextLine();
         }
-
         Repeticion r = Repeticion.valueOf(repeticion.replace(" ", "_"));
-
         System.out.println("Ingrese fecha fin(dd/MM/yyyy)(si no tiene, presione Enter): ");
         String fechaFin = scanner.nextLine();
-
         if(fechaFin.isEmpty()){
             Ingresos ingreso1 = new Ingresos(fechaIn, cat, valor, descripcion,"No definido", r);
             AggIngreso(ingreso1);
@@ -126,7 +116,6 @@ public class TransaccionControl {
         return false;
 
     }
-
 
 
     /* REGISTRAR GASTO */
@@ -225,7 +214,6 @@ public class TransaccionControl {
             System.out.println(" ");
         }
     }
-
 
     public void eliminarGas(Scanner sc){
         sc.nextLine();

@@ -137,7 +137,6 @@ public class AdministrarCategoriasActivity extends AppCompatActivity {
         return listado.toString();
     }
 
-
     private boolean buscarCategoriaIn(String c){
         for(String ing : catControl.getListaIngresos()){
             if(ing.equalsIgnoreCase(c)){
@@ -238,6 +237,5 @@ public class AdministrarCategoriasActivity extends AppCompatActivity {
             catControl.setListaGastos(new ArrayList<>());
         }
     }
-
 
 }

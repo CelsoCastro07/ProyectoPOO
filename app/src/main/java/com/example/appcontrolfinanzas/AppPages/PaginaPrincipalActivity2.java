@@ -5,23 +5,21 @@ import android.os.Bundle;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-
 import android.view.View;
-
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.example.appcontrolfinanzas.AppPages.Administradores.AdministrarCategoriasActivity;
-import com.example.appcontrolfinanzas.AppPages.Administradores.AdministrarGastosActivity;
-import com.example.appcontrolfinanzas.AppPages.Administradores.AdministrarIngresosActivity;
-import com.example.appcontrolfinanzas.AppPages.Vista.CategoriaVista;
-import com.example.appcontrolfinanzas.R;
-
+import com.example.appcontrolfinanzas.AppPages.Administradores.*;
+import com.example.appcontrolfinanzas.AppPages.Vista.*;
 import com.example.appcontrolfinanzas.AppPages.Controladores.*;
+import com.example.appcontrolfinanzas.AppPages.Finanzas.*;
+import com.example.appcontrolfinanzas.AppPages.Transacciones.*;
+import com.example.appcontrolfinanzas.R;
 import java.util.ArrayList;
+
 
 public class PaginaPrincipalActivity2 extends AppCompatActivity {
 Spinner sItems;
@@ -35,6 +33,21 @@ Spinner sItems;
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        CategoriaControl catControl = new CategoriaControl();
+        CategoriaVista principalCat = new CategoriaVista(catControl);
+        catControl.getListaIngresos().add("Deudas a cobrar");
+        catControl.getListaIngresos().add("Salario");
+        catControl.getListaGastos().add("Pagos");
+        catControl.getListaGastos().add("Alquiler");
+
+
+        TransaccionControl inGascontrol = new TransaccionControl(catControl);
+        TransaccionVista principalInGas = new TransaccionVista(inGascontrol);
+        inGascontrol.getListaIngresos().add(new Ingresos("01/01/2024", "Salario", 450, "sueldo", "No definido", Repeticion.por_mes));
+        inGascontrol.getListaIngresos().add(new Ingresos("01/07/2024", "Deudas a cobrar", 1000, "prestamo a familiar", "30/06/2025", Repeticion.sin_repeticion));
+        inGascontrol.getListaGastos().add(new Gastos("01/01/2024", "Alquiler", 350, "Alquiler casa", "No definido", Repeticion.por_mes));
+        inGascontrol.getListaGastos().add(new Gastos("01/04/2024", "Pagos", 1000, "pago a banco", "30/01/2025", Repeticion.por_mes));
 
         mostrarAct();
         sItems.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

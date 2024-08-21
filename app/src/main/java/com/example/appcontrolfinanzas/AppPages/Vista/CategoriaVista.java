@@ -8,9 +8,7 @@ public class CategoriaVista {
 
     public CategoriaVista(CategoriaControl control){
         this.control = control;
-
     }
-
     public void ejecucion(){
         Scanner sc = new Scanner(System.in);
         int opcion = 0;
