@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:outlineAmbientShadowColor="#C7E6FA"
+    android:outlineSpotShadowColor="#C7E6FA"
+    tools:context=".AppPages.Administradores.AdministrarIngresosActivity">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/background_image5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textViewAdIng"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="Administrar Ingresos"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:id="@+id/scrollIngresos"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAdIng">
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TableLayout
+                android:id="@+id/tableLayoutIngresos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:stretchColumns="1">
+
+                <!-- Row for Column Headers -->
+                <TableRow>
+                    <TextView android:text="Código" android:padding="8dp" android:textStyle="bold"/>
+                    <TextView android:text="Fecha Inicio" android:padding="8dp" android:textStyle="bold"/>
+                    <TextView android:text="Categoría" android:padding="8dp" android:textStyle="bold"/>
+                    <TextView android:text="Valor Neto" android:padding="8dp" android:textStyle="bold"/>
+                    <TextView android:text="Descripción" android:padding="8dp" android:textStyle="bold"/>
+                    <TextView android:text="Fecha Fin" android:padding="8dp" android:textStyle="bold"/>
+                    <TextView android:text="Repetición" android:padding="8dp" android:textStyle="bold"/>
+
+                </TableRow>
+
+                <!-- Dynamic Rows Will Be Added Here -->
+            </TableLayout>
+        </HorizontalScrollView>
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Datos de registro"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollIngresos" />
+
+    <TextView
+        android:id="@+id/textViewFechaInicio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:text="Fecha de inicio: "
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <EditText
+        android:id="@+id/editTextFechaIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="13dp"
+        android:inputType="text"
+        android:hint="DD/MM/AAAA"
+        android:textSize="10sp"
+        app:layout_constraintStart_toEndOf="@+id/textViewFechaInicio"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <TextView
+        android:id="@+id/textViewCategoria"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="Categoria:"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/textViewFechaInicio"
+        app:layout_constraintTop_toBottomOf="@+id/textViewFechaInicio" />
+
+    <EditText
+        android:id="@+id/editTextcategoria"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:inputType="text"
+        android:hint="Nombre de categoria"
+        android:textSize="10sp"
+        app:layout_constraintStart_toEndOf="@+id/textViewCategoria"
+        app:layout_constraintTop_toBottomOf="@+id/editTextFechaIn" />
+
+    <TextView
+        android:id="@+id/textViewValorNetop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="Valor neto:"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/textViewCategoria"
+        app:layout_constraintTop_toBottomOf="@+id/textViewCategoria" />
+
+    <EditText
+        android:id="@+id/editTextvalorneto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:inputType="text"
+        android:hint="Digite el monto"
+        android:textSize="10sp"
+        app:layout_constraintStart_toEndOf="@+id/textViewValorNetop"
+        app:layout_constraintTop_toBottomOf="@+id/editTextcategoria" />
+
+    <TextView
+        android:id="@+id/textViewDescrip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="Descripcion:"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/textViewValorNetop"
+        app:layout_constraintTop_toBottomOf="@+id/textViewValorNetop" />
+
+    <EditText
+        android:id="@+id/editTextDescrip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:inputType="text"
+        android:hint="Detalle el ingreso"
+        android:textSize="10sp"
+        app:layout_constraintStart_toEndOf="@+id/textViewDescrip"
+        app:layout_constraintTop_toBottomOf="@+id/editTextvalorneto" />
+
+    <TextView
+        android:id="@+id/textViewFechaFin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="Fecha fin: "
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/textViewDescrip"
+        app:layout_constraintTop_toBottomOf="@+id/textViewDescrip" />
+
+    <EditText
+        android:id="@+id/editTextFechaFin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:inputType="text"
+        android:hint="DD/MM/AAAA"
+        android:textSize="10sp"
+        app:layout_constraintStart_toEndOf="@+id/textViewFechaFin"
+        app:layout_constraintTop_toBottomOf="@+id/editTextDescrip"/>
+
+    <TextView
+        android:id="@+id/textViewRepeticion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="Repeticion:"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/textViewFechaFin"
+        app:layout_constraintTop_toBottomOf="@+id/textViewFechaFin" />
+
+
+    <EditText
+        android:id="@+id/editTextRepeticion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:inputType="text"
+        android:hint="por dia, por semana, por año"
+        android:textSize="10sp"
+        app:layout_constraintStart_toEndOf="@+id/textViewRepeticion"
+        app:layout_constraintTop_toBottomOf="@+id/editTextFechaFin" />
+
+    <Button
+        android:id="@+id/buttonRegisIng"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Registrar"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="200dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

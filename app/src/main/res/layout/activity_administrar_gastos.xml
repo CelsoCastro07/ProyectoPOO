@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AppPages.Administradores.AdministrarGastosActivity">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/backgroundImage"
+        android:layout_width="450dp"
+        android:layout_height="871dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/background_imagen3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.333" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewAdGas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Administrar Gastos"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:textStyle="bold|italic"
+        android:textSize="35sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:id="@+id/scrollGastos"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAdGas"
+        android:layout_marginTop="30dp"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TableLayout
+                android:id="@+id/tableLayoutGastos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:stretchColumns="1"
+                android:background="@color/white">
+
+                <!-- Row for Column Headers -->
+                <TableRow>
+                    <TextView android:text="Código" android:padding="8dp" android:textStyle="bold"/>
+                    <TextView android:text="Fecha Inicio" android:padding="8dp" android:textStyle="bold"/>
+                    <TextView android:text="Categoría" android:padding="8dp" android:textStyle="bold"/>
+                    <TextView android:text="Valor Neto" android:padding="8dp" android:textStyle="bold"/>
+                    <TextView android:text="Descripción" android:padding="8dp" android:textStyle="bold"/>
+                    <TextView android:text="Fecha Fin" android:padding="8dp" android:textStyle="bold"/>
+                    <TextView android:text="Repetición" android:padding="8dp" android:textStyle="bold"/>
+
+                </TableRow>
+
+                <!-- Dynamic Rows Will Be Added Here -->
+            </TableLayout>
+        </HorizontalScrollView>
+    </ScrollView>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Datos de registro"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollGastos" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewFechaInicio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:text="Fecha de inicio: "
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/editTextFechaIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="13dp"
+        android:inputType="text"
+        android:hint="DD/MM/AAAA"
+        android:textSize="10sp"
+        app:layout_constraintStart_toEndOf="@+id/textViewFechaInicio"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewCategoria"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="Categoria:"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/textViewFechaInicio"
+        app:layout_constraintTop_toBottomOf="@+id/textViewFechaInicio" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/editTextcategoria"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:inputType="text"
+        android:hint="Nombre de categoria"
+        android:textSize="10sp"
+        app:layout_constraintStart_toEndOf="@+id/textViewCategoria"
+        app:layout_constraintTop_toBottomOf="@+id/editTextFechaIn" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewValorNetop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="Valor neto:"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/textViewCategoria"
+        app:layout_constraintTop_toBottomOf="@+id/textViewCategoria" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/editTextvalorneto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:inputType="text"
+        android:hint="Digite el monto"
+        android:textSize="10sp"
+        app:layout_constraintStart_toEndOf="@+id/textViewValorNetop"
+        app:layout_constraintTop_toBottomOf="@+id/editTextcategoria" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewDescrip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="Descripcion:"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/textViewValorNetop"
+        app:layout_constraintTop_toBottomOf="@+id/textViewValorNetop" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/editTextDescrip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:inputType="text"
+        android:hint="Detalle el ingreso"
+        android:textSize="10sp"
+        app:layout_constraintStart_toEndOf="@+id/textViewDescrip"
+        app:layout_constraintTop_toBottomOf="@+id/editTextvalorneto" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewFechaFin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="Fecha fin: "
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/textViewDescrip"
+        app:layout_constraintTop_toBottomOf="@+id/textViewDescrip" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/editTextFechaFin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:inputType="text"
+        android:hint="DD/MM/AAAA"
+        android:textSize="10sp"
+        app:layout_constraintStart_toEndOf="@+id/textViewFechaFin"
+        app:layout_constraintTop_toBottomOf="@+id/editTextDescrip"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewRepeticion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="Repeticion:"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/textViewFechaFin"
+        app:layout_constraintTop_toBottomOf="@+id/textViewFechaFin" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/editTextRepeticion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:inputType="text"
+        android:hint="por dia, por semana, por año"
+        android:textSize="10sp"
+        app:layout_constraintStart_toEndOf="@+id/textViewRepeticion"
+        app:layout_constraintTop_toBottomOf="@+id/editTextFechaFin" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonRegisGas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Registrar"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="200dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
