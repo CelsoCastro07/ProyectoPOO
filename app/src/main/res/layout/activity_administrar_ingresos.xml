@@ -7,7 +7,8 @@
     android:layout_height="match_parent"
     android:outlineAmbientShadowColor="#C7E6FA"
     android:outlineSpotShadowColor="#C7E6FA"
-    tools:context=".AppPages.Administradores.AdministrarIngresosActivity">
+    tools:context=".AppPages.Administradores.AdministrarIngresosActivity"
+    tools:ignore="UnusedAttribute">
 
     <ImageView
         android:layout_width="match_parent"
@@ -31,7 +32,8 @@
         android:textStyle="bold|italic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText" />
 
     <ScrollView
         android:id="@+id/scrollIngresos"
@@ -54,10 +56,14 @@
 
                 <!-- Row for Column Headers -->
                 <TableRow>
-                    <TextView android:text="Código" android:padding="8dp" android:textStyle="bold"/>
-                    <TextView android:text="Fecha Inicio" android:padding="8dp" android:textStyle="bold"/>
-                    <TextView android:text="Categoría" android:padding="8dp" android:textStyle="bold"/>
-                    <TextView android:text="Valor Neto" android:padding="8dp" android:textStyle="bold"/>
+                    <TextView android:text="Código" android:padding="8dp" android:textStyle="bold"
+                        tools:ignore="HardcodedText" />
+                    <TextView android:text="Fecha Inicio" android:padding="8dp" android:textStyle="bold"
+                        tools:ignore="HardcodedText" />
+                    <TextView android:text="Categoría" android:padding="8dp" android:textStyle="bold"
+                        tools:ignore="HardcodedText" />
+                    <TextView android:text="Valor Neto" android:padding="8dp" android:textStyle="bold"
+                        tools:ignore="HardcodedText" />
                     <TextView android:text="Descripción" android:padding="8dp" android:textStyle="bold"/>
                     <TextView android:text="Fecha Fin" android:padding="8dp" android:textStyle="bold"/>
                     <TextView android:text="Repetición" android:padding="8dp" android:textStyle="bold"/>
@@ -92,7 +98,8 @@
         android:textSize="15sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        tools:ignore="HardcodedText" />
 
     <EditText
         android:id="@+id/editTextFechaIn"
@@ -104,7 +111,8 @@
         android:hint="DD/MM/AAAA"
         android:textSize="10sp"
         app:layout_constraintStart_toEndOf="@+id/textViewFechaInicio"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        tools:ignore="HardcodedText,SmallSp" />
 
     <TextView
         android:id="@+id/textViewCategoria"
@@ -115,7 +123,8 @@
         android:textColor="@color/black"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/textViewFechaInicio"
-        app:layout_constraintTop_toBottomOf="@+id/textViewFechaInicio" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewFechaInicio"
+        tools:ignore="HardcodedText" />
 
     <EditText
         android:id="@+id/editTextcategoria"
@@ -126,7 +135,8 @@
         android:hint="Nombre de categoria"
         android:textSize="10sp"
         app:layout_constraintStart_toEndOf="@+id/textViewCategoria"
-        app:layout_constraintTop_toBottomOf="@+id/editTextFechaIn" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextFechaIn"
+        tools:ignore="HardcodedText,SmallSp" />
 
     <TextView
         android:id="@+id/textViewValorNetop"
@@ -137,7 +147,8 @@
         android:textColor="@color/black"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@id/textViewCategoria"
-        app:layout_constraintTop_toBottomOf="@+id/textViewCategoria" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewCategoria"
+        tools:ignore="HardcodedText" />
 
     <EditText
         android:id="@+id/editTextvalorneto"
@@ -148,7 +159,8 @@
         android:hint="Digite el monto"
         android:textSize="10sp"
         app:layout_constraintStart_toEndOf="@+id/textViewValorNetop"
-        app:layout_constraintTop_toBottomOf="@+id/editTextcategoria" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextcategoria"
+        tools:ignore="HardcodedText,SmallSp" />
 
     <TextView
         android:id="@+id/textViewDescrip"
@@ -159,7 +171,8 @@
         android:textColor="@color/black"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@id/textViewValorNetop"
-        app:layout_constraintTop_toBottomOf="@+id/textViewValorNetop" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewValorNetop"
+        tools:ignore="HardcodedText" />
 
     <EditText
         android:id="@+id/editTextDescrip"
@@ -170,7 +183,8 @@
         android:hint="Detalle el ingreso"
         android:textSize="10sp"
         app:layout_constraintStart_toEndOf="@+id/textViewDescrip"
-        app:layout_constraintTop_toBottomOf="@+id/editTextvalorneto" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextvalorneto"
+        tools:ignore="HardcodedText,SmallSp" />
 
     <TextView
         android:id="@+id/textViewFechaFin"
@@ -181,7 +195,8 @@
         android:textColor="@color/black"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@id/textViewDescrip"
-        app:layout_constraintTop_toBottomOf="@+id/textViewDescrip" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewDescrip"
+        tools:ignore="HardcodedText" />
 
     <EditText
         android:id="@+id/editTextFechaFin"
@@ -192,7 +207,8 @@
         android:hint="DD/MM/AAAA"
         android:textSize="10sp"
         app:layout_constraintStart_toEndOf="@+id/textViewFechaFin"
-        app:layout_constraintTop_toBottomOf="@+id/editTextDescrip"/>
+        app:layout_constraintTop_toBottomOf="@+id/editTextDescrip"
+        tools:ignore="HardcodedText,SmallSp" />
 
     <TextView
         android:id="@+id/textViewRepeticion"
@@ -203,7 +219,8 @@
         android:textColor="@color/black"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@id/textViewFechaFin"
-        app:layout_constraintTop_toBottomOf="@+id/textViewFechaFin" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewFechaFin"
+        tools:ignore="HardcodedText" />
 
 
     <EditText
@@ -215,7 +232,8 @@
         android:hint="por dia, por semana, por año"
         android:textSize="10sp"
         app:layout_constraintStart_toEndOf="@+id/textViewRepeticion"
-        app:layout_constraintTop_toBottomOf="@+id/editTextFechaFin" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextFechaFin"
+        tools:ignore="HardcodedText,SmallSp" />
 
     <Button
         android:id="@+id/buttonRegisIng"
@@ -225,6 +243,7 @@
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="200dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="HardcodedText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

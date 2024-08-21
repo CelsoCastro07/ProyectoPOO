@@ -18,7 +18,8 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.333" />
+        app:layout_constraintVertical_bias="0.333"
+        tools:ignore="ImageContrastCheck" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textViewAdGas"
@@ -53,14 +54,25 @@
                 android:background="@color/white">
 
                 <!-- Row for Column Headers -->
-                <TableRow>
-                    <TextView android:text="Código" android:padding="8dp" android:textStyle="bold"/>
-                    <TextView android:text="Fecha Inicio" android:padding="8dp" android:textStyle="bold"/>
-                    <TextView android:text="Categoría" android:padding="8dp" android:textStyle="bold"/>
-                    <TextView android:text="Valor Neto" android:padding="8dp" android:textStyle="bold"/>
-                    <TextView android:text="Descripción" android:padding="8dp" android:textStyle="bold"/>
-                    <TextView android:text="Fecha Fin" android:padding="8dp" android:textStyle="bold"/>
-                    <TextView android:text="Repetición" android:padding="8dp" android:textStyle="bold"/>
+                <TableRow tools:ignore="UselessParent">
+                    <TextView android:text="Código" android:padding="8dp" android:textStyle="bold"
+                        tools:ignore="HardcodedText" />
+                    <TextView android:text="Fecha Inicio" android:padding="8dp" android:textStyle="bold"
+                        tools:ignore="HardcodedText" />
+                    <TextView android:text="Categoría" android:padding="8dp" android:textStyle="bold"
+                        tools:ignore="HardcodedText" />
+                    <TextView android:text="Valor Neto" android:padding="8dp" android:textStyle="bold"
+                        tools:ignore="HardcodedText" />
+                    <TextView android:text="Descripción" android:padding="8dp" android:textStyle="bold"
+                        tools:ignore="HardcodedText" />
+
+                    <TextView
+                        android:padding="8dp"
+                        android:text="Fecha Fin"
+                        android:textStyle="bold"
+                        tools:ignore="HardcodedText,TextContrastCheck" />
+                    <TextView android:text="Repetición" android:padding="8dp" android:textStyle="bold"
+                        tools:ignore="HardcodedText" />
 
                 </TableRow>
 
@@ -100,11 +112,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="13dp"
-        android:inputType="text"
         android:hint="DD/MM/AAAA"
+        android:inputType="text"
         android:textSize="10sp"
         app:layout_constraintStart_toEndOf="@+id/textViewFechaInicio"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,SmallSp,TextContrastCheck" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textViewCategoria"
@@ -122,11 +135,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:inputType="text"
         android:hint="Nombre de categoria"
+        android:inputType="text"
         android:textSize="10sp"
         app:layout_constraintStart_toEndOf="@+id/textViewCategoria"
-        app:layout_constraintTop_toBottomOf="@+id/editTextFechaIn" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextFechaIn"
+        tools:ignore="HardcodedText,SmallSp,TextContrastCheck" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textViewValorNetop"
@@ -144,11 +158,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:inputType="text"
         android:hint="Digite el monto"
+        android:inputType="text"
         android:textSize="10sp"
         app:layout_constraintStart_toEndOf="@+id/textViewValorNetop"
-        app:layout_constraintTop_toBottomOf="@+id/editTextcategoria" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextcategoria"
+        tools:ignore="TextContrastCheck" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textViewDescrip"
@@ -166,11 +181,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:inputType="text"
         android:hint="Detalle el ingreso"
+        android:inputType="text"
         android:textSize="10sp"
         app:layout_constraintStart_toEndOf="@+id/textViewDescrip"
-        app:layout_constraintTop_toBottomOf="@+id/editTextvalorneto" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextvalorneto"
+        tools:ignore="HardcodedText,SmallSp,TextContrastCheck" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textViewFechaFin"
@@ -188,11 +204,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:inputType="text"
         android:hint="DD/MM/AAAA"
+        android:inputType="text"
         android:textSize="10sp"
         app:layout_constraintStart_toEndOf="@+id/textViewFechaFin"
-        app:layout_constraintTop_toBottomOf="@+id/editTextDescrip"/>
+        app:layout_constraintTop_toBottomOf="@+id/editTextDescrip"
+        tools:ignore="HardcodedText,SmallSp,TextContrastCheck" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textViewRepeticion"
@@ -210,11 +227,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:inputType="text"
         android:hint="por dia, por semana, por año"
+        android:inputType="text"
         android:textSize="10sp"
         app:layout_constraintStart_toEndOf="@+id/textViewRepeticion"
-        app:layout_constraintTop_toBottomOf="@+id/editTextFechaFin" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextFechaFin"
+        tools:ignore="HardcodedText,SmallSp,TextContrastCheck" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/buttonRegisGas"
@@ -224,5 +242,6 @@
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="200dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="HardcodedText" />
 </androidx.constraintlayout.widget.ConstraintLayout>
