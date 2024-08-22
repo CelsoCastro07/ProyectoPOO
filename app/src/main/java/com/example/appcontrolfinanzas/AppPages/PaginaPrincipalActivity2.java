@@ -13,16 +13,17 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.appcontrolfinanzas.AppPages.Administradores.*;
-import com.example.appcontrolfinanzas.AppPages.Vista.*;
 import com.example.appcontrolfinanzas.AppPages.Controladores.*;
-import com.example.appcontrolfinanzas.AppPages.Finanzas.*;
 import com.example.appcontrolfinanzas.AppPages.Transacciones.*;
 import com.example.appcontrolfinanzas.R;
+
 import java.util.ArrayList;
 
 
 public class PaginaPrincipalActivity2 extends AppCompatActivity {
 Spinner sItems;
+private CategoriaControl catControl;
+private TransaccionControl inGascontrol;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,27 +35,67 @@ Spinner sItems;
             return insets;
         });
 
-        CategoriaControl catControl = new CategoriaControl();
-        CategoriaVista principalCat = new CategoriaVista(catControl);
+        sItems = findViewById(R.id.spActividades);
+
+        catControl = new CategoriaControl();
         catControl.getListaIngresos().add("Deudas a cobrar");
         catControl.getListaIngresos().add("Salario");
         catControl.getListaGastos().add("Pagos");
         catControl.getListaGastos().add("Alquiler");
 
-
-        TransaccionControl inGascontrol = new TransaccionControl(catControl);
-        TransaccionVista principalInGas = new TransaccionVista(inGascontrol);
-        inGascontrol.getListaIngresos().add(new Ingresos("01/01/2024", "Salario", 450, "sueldo", "No definido", Repeticion.por_mes));
-        inGascontrol.getListaIngresos().add(new Ingresos("01/07/2024", "Deudas a cobrar", 1000, "prestamo a familiar", "30/06/2025", Repeticion.sin_repeticion));
-        inGascontrol.getListaGastos().add(new Gastos("01/01/2024", "Alquiler", 350, "Alquiler casa", "No definido", Repeticion.por_mes));
-        inGascontrol.getListaGastos().add(new Gastos("01/04/2024", "Pagos", 1000, "pago a banco", "30/01/2025", Repeticion.por_mes));
+        inGascontrol = new TransaccionControl(catControl);
+        inGascontrol.getListaIngresos().add(new Ingreso("01/01/2024", "Salario", 450, "sueldo", "No definido", Repeticion.por_mes));
+        inGascontrol.getListaIngresos().add(new Ingreso("01/07/2024", "Deudas a cobrar", 1000, "prestamo a familiar", "30/06/2025", Repeticion.sin_repeticion));
+        inGascontrol.getListaGastos().add(new Gasto("01/01/2024", "Alquiler", 350, "Alquiler casa", "No definido", Repeticion.por_mes));
+        inGascontrol.getListaGastos().add(new Gasto("01/04/2024", "Pagos", 1000, "pago a banco", "30/01/2025", Repeticion.por_mes));
 
         mostrarAct();
         sItems.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedOption = (String) parent.getItemAtPosition(position);
-                redirigirActividad(selectedOption);
+                Intent intent;
+                switch (selectedOption) {
+                    case "1.Administrar categorías":
+                        intent = new Intent(PaginaPrincipalActivity2.this, AdministrarCategoriasActivity.class);
+                        intent.putExtra("categoria", catControl);
+                        break;
+                    case "2.Administrar Ingresos":
+                        intent = new Intent(PaginaPrincipalActivity2.this, AdministrarIngresosActivity.class);
+                        intent.putExtra("listaIngresos", inGascontrol.getListaIngresos());
+                        break;
+                    case "3.Administrar Gastos":
+                        intent = new Intent(PaginaPrincipalActivity2.this, AdministrarGastosActivity.class);
+                        intent.putExtra("listaGastos", inGascontrol.getListaGastos());
+                        break;
+                    /*
+                    case "Cuentas por cobrar":
+                        intent = new Intent(PaginaPrincipalActivity2.this, CuentasPorCobrarActivity.class);
+                        break;
+
+                    case "Administrar Cuentas por pagar":
+                        intent = new Intent(PaginaPrincipalActivity2.this, AdministrarCuentasPorPagarActivity.class);
+                        break;
+                    case "Administrar cuentas bancarias":
+                        intent = new Intent(PaginaPrincipalActivity2.this, AdministrarCuentasBancariasActivity.class);
+                        break;
+                    case "Administrar Inversiones":
+                        intent = new Intent(PaginaPrincipalActivity2.this, AdministrarInversionesActivity.class);
+                        break;
+                    case "Administrar personas y bancos":
+                        intent = new Intent(PaginaPrincipalActivity2.this, AdministrarPersonasYBancosActivity.class);
+                        break;
+                    case "Reportes":
+                        intent = new Intent(PaginaPrincipalActivity2.this, ReportesActivity.class);
+                        break;
+                    case "Proyección de gastos":
+                        intent = new Intent(PaginaPrincipalActivity2.this, ProyeccionDeGastosActivity.class);
+                        break;
+                         */
+                    default:
+                        return; // No hacer nada si la opción no coincide
+                }
+                startActivity(intent);
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -69,7 +110,6 @@ Spinner sItems;
     }
 
     public void mostrarAct() {
-        sItems = findViewById(R.id.spActividades);
         ArrayList<String> listaActividades = new ArrayList<>();
         listaActividades.add("--Seleccione alguna actividad--");
         listaActividades.add("1.Administrar categorías");
@@ -84,48 +124,7 @@ Spinner sItems;
         listaActividades.add("10.Proyección de gastos");
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, listaActividades);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
         sItems.setAdapter(adapter);
     }
 
-    public void redirigirActividad(String option) {
-        Intent intent;
-        switch (option) {
-            case "1.Administrar categorías":
-                intent = new Intent(this, AdministrarCategoriasActivity.class);
-                break;
-            case "2.Administrar Ingresos":
-                intent = new Intent(this,AdministrarIngresosActivity.class);
-                break;
-            case "3.Administrar Gastos":
-                intent = new Intent(this, AdministrarGastosActivity.class);
-                break;
-             /*
-            case "Cuentas por cobrar":
-                intent = new Intent(this, CuentasPorCobrarActivity.class);
-                break;
-            case "Administrar Cuentas por pagar":
-                intent = new Intent(this, AdministrarCuentasPorPagarActivity.class);
-                break;
-            case "Administrar cuentas bancarias":
-                intent = new Intent(this, AdministrarCuentasBancariasActivity.class);
-                break;
-            case "Administrar Inversiones":
-                intent = new Intent(this, AdministrarInversionesActivity.class);
-                break;
-            case "Administrar personas y bancos":
-                intent = new Intent(this, AdministrarPersonasYBancosActivity.class);
-                break;
-            case "Reportes":
-                intent = new Intent(this, ReportesActivity.class);
-                break;
-            case "Proyección de gastos":
-                intent = new Intent(this, ProyeccionDeGastosActivity.class);
-                break;
-              */
-            default:
-                return; // No hacer nada si la opción no coincide
-        }
-        startActivity(intent);
-    }
 }

@@ -31,7 +31,7 @@ import java.util.Objects;
 
 public class AdministrarCategoriasActivity extends AppCompatActivity {
     public CategoriaVista principalCat;
-    public static CategoriaControl catControl;
+    private CategoriaControl catControl;
     private EditText etNombreCategoria;
     private TextView listaIngresos, listaGastos;
     private String tipoCategoria;
@@ -50,7 +50,7 @@ public class AdministrarCategoriasActivity extends AppCompatActivity {
         });
 
         //Inicializacion de las categorias
-        catControl = new CategoriaControl();
+        catControl = (CategoriaControl) getIntent().getSerializableExtra("categoria");
         principalCat = new CategoriaVista(catControl);
 
         cargarCategoriasDesdeArchivo();

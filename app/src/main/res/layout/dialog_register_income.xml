@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/editTextFechaInDialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Fecha de inicio (DD/MM/AAAA)" />
+
+    <EditText
+        android:id="@+id/editTextCategoriaDialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Categoría" />
+
+    <EditText
+        android:id="@+id/editTextValorNetoDialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Valor neto" />
+
+    <EditText
+        android:id="@+id/editTextDescripcionDialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Descripción" />
+
+    <EditText
+        android:id="@+id/editTextFechaFinDialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Fecha fin (DD/MM/AAAA)" />
+
+    <Spinner
+        android:id="@+id/spinnerRepeticionDialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/repeticion_options" />
+
+</LinearLayout>

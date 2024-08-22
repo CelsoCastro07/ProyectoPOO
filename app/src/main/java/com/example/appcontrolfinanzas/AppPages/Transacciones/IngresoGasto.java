@@ -1,6 +1,8 @@
 package com.example.appcontrolfinanzas.AppPages.Transacciones;
 
-public class IngresoGasto {
+import java.io.Serializable;
+
+public class IngresoGasto implements Serializable {
     protected String fechaIn;
     protected String categoria;
     protected double valorNeto;

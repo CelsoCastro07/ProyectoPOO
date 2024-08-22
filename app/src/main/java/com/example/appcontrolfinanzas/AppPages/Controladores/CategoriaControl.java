@@ -1,9 +1,10 @@
 package com.example.appcontrolfinanzas.AppPages.Controladores;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class CategoriaControl {
+public class CategoriaControl implements Serializable {
     private ArrayList<String> ingresos;
     private ArrayList<String> gastos;
 

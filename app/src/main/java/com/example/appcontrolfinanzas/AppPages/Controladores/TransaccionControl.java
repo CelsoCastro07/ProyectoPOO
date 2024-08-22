@@ -1,15 +1,17 @@
 package com.example.appcontrolfinanzas.AppPages.Controladores;
 
-import com.example.appcontrolfinanzas.AppPages.Transacciones.Gastos;
-import com.example.appcontrolfinanzas.AppPages.Transacciones.Ingresos;
+import com.example.appcontrolfinanzas.AppPages.Transacciones.Gasto;
+import com.example.appcontrolfinanzas.AppPages.Transacciones.Ingreso;
 import com.example.appcontrolfinanzas.AppPages.Transacciones.Repeticion;
+
+import java.io.Serializable;
 import java.util.*;
 import java.time.format.*;
 import java.time.*;
 
-public class TransaccionControl {
-    private ArrayList<Ingresos> listaIngresos;
-    private ArrayList<Gastos> listaGastos;
+public class TransaccionControl implements Serializable {
+    private ArrayList<Ingreso> listaIngresos;
+    private ArrayList<Gasto> listaGastos;
     private CategoriaControl controlcat;
 
     public TransaccionControl(CategoriaControl controlcat){
@@ -18,10 +20,14 @@ public class TransaccionControl {
         listaGastos = new ArrayList<>();
     }
 
-    public ArrayList<Ingresos> getListaIngresos(){
+    private void inicializarDatosPorDefecto() {
+        listaIngresos.add(new Ingreso( "01/01/2024", "Salario", 450, "sueldo", "No definido", Repeticion.por_mes));
+        listaIngresos.add(new Ingreso( "01/07/2024", "Deudas a cobrar", 1000, "prestamo a familiar", "30/06/2025", Repeticion.sin_repeticion));
+    }
+    public ArrayList<Ingreso> getListaIngresos(){
         return listaIngresos;
     }
-    public ArrayList<Gastos> getListaGastos(){
+    public ArrayList<Gasto> getListaGastos(){
         return listaGastos;
     }
 
@@ -29,8 +35,8 @@ public class TransaccionControl {
     public void mostrarMenuGas(){
         System.out.printf("%-8s %-15s %-15s %-15s %-15s %-15s %-15s\n", "Codigo", "Fecha inicio", "Categoria", "Valor Neto", "Descripcion", "Fecha fin", "Repeticion");
         System.out.println(new String(new char[110]).replace("\0", "-"));
-        for(Gastos gastos:listaGastos){
-            System.out.println(gastos);
+        for(Gasto gasto :listaGastos){
+            System.out.println(gasto);
             System.out.println(new String(new char[110]).replace("\0", "-"));
         }
         System.out.println("");
@@ -82,7 +88,7 @@ public class TransaccionControl {
         System.out.println("Ingrese fecha fin(dd/MM/yyyy)(si no tiene, presione Enter): ");
         String fechaFin = scanner.nextLine();
         if(fechaFin.isEmpty()){
-            Ingresos ingreso1 = new Ingresos(fechaIn, cat, valor, descripcion,"No definido", r);
+            Ingreso ingreso1 = new Ingreso(fechaIn, cat, valor, descripcion,"No definido", r);
             AggIngreso(ingreso1);
         }
         else{
@@ -90,12 +96,12 @@ public class TransaccionControl {
                 System.out.println("Ingrese con el formato por favor(dd/MM/yyyy): ");
                 fechaFin = scanner.nextLine();
             }
-            Ingresos ingreso1 = new Ingresos(fechaIn, cat, valor, descripcion, fechaFin, r);
+            Ingreso ingreso1 = new Ingreso(fechaIn, cat, valor, descripcion, fechaFin, r);
             AggIngreso(ingreso1);
         }
     }
 
-    private void AggIngreso(Ingresos ingreso1){
+    private void AggIngreso(Ingreso ingreso1){
         if(verificacionInYaHaSidoAgg(ingreso1)){
             System.out.println("Ya se encuentra");
             System.out.println("");
@@ -107,8 +113,8 @@ public class TransaccionControl {
         }
     }
 
-    private boolean verificacionInYaHaSidoAgg(Ingresos ingreso1){
-        for(Ingresos ingreso: listaIngresos){
+    private boolean verificacionInYaHaSidoAgg(Ingreso ingreso1){
+        for(Ingreso ingreso: listaIngresos){
             if(ingreso.equals(ingreso1)){
                 return true;
             }
@@ -151,16 +157,16 @@ public class TransaccionControl {
         String fechaFin = scanner.nextLine();
 
         if(fechaFin.isEmpty()){
-            Gastos gasto = new Gastos(fechaIn, cat, valor, descripcion, "No definido", r);
+            Gasto gasto = new Gasto(fechaIn, cat, valor, descripcion, "No definido", r);
             AggGasto(gasto);
         }
         else{
-            Gastos gasto = new Gastos(fechaIn, cat, valor, descripcion, fechaFin, r);
+            Gasto gasto = new Gasto(fechaIn, cat, valor, descripcion, fechaFin, r);
             AggGasto(gasto);
         }
     }
 
-    private void AggGasto(Gastos gasto1){
+    private void AggGasto(Gasto gasto1){
         if(verificacionGastoYaHaSidoAgg(gasto1)){
             System.out.println("Ya se encuentra");
             System.out.println("");
@@ -172,8 +178,8 @@ public class TransaccionControl {
         }
     }
 
-    private boolean verificacionGastoYaHaSidoAgg(Gastos gasto){
-        for(Gastos un_gasto: listaGastos){
+    private boolean verificacionGastoYaHaSidoAgg(Gasto gasto){
+        for(Gasto un_gasto: listaGastos){
             if(un_gasto.equals(gasto)){
                 return true;
             }
@@ -195,9 +201,9 @@ public class TransaccionControl {
         System.out.println("¿Seguro de eliminarla?(Si o No)");
         String siono = sc.nextLine();
         if(siono.equalsIgnoreCase("si")){
-            Iterator<Ingresos> it = listaIngresos.iterator();
+            Iterator<Ingreso> it = listaIngresos.iterator();
             while(it.hasNext()){
-                Ingresos ingreso = it.next();
+                Ingreso ingreso = it.next();
                 if(ingreso.getCodigo() == codigo){
                     it.remove();
                     System.out.println("Ingreso removido. ");
@@ -224,9 +230,9 @@ public class TransaccionControl {
         System.out.println("¿Seguro de eliminarla?(Si o No)");
         String siono = sc.nextLine();
         if(siono.equalsIgnoreCase("si")){
-            Iterator<Gastos> it = listaGastos.iterator();
+            Iterator<Gasto> it = listaGastos.iterator();
             while(it.hasNext()){
-                Gastos gasto = it.next();
+                Gasto gasto = it.next();
                 if(gasto.getCodigo() == codigo){
                     it.remove();
                     System.out.println("Gasto removido. ");
@@ -266,7 +272,7 @@ public class TransaccionControl {
         System.out.println("Ingrese el codigo: ");
         int codigo = sc.nextInt();
         sc.nextLine();
-        for (Ingresos ingreso : listaIngresos) {
+        for (Ingreso ingreso : listaIngresos) {
             if(ingreso.getCodigo() == codigo){
                 System.out.println("Ingrese fecha de finalizacion(dd/MM/yyyy): ");
                 String fechaFin = sc.nextLine();
@@ -300,7 +306,7 @@ public class TransaccionControl {
         System.out.println("Ingrese el codigo: ");
         int codigo = sc.nextInt();
         sc.nextLine();
-        for (Gastos gasto : listaGastos) {
+        for (Gasto gasto : listaGastos) {
             if(gasto.getCodigo() == codigo){
                 System.out.println("Ingrese fecha de finalizacion(dd/MM/yyyy): ");
                 String fechaFin = sc.nextLine();
