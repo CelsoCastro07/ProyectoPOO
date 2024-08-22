@@ -35,11 +35,9 @@ import java.util.ArrayList;
 
 public class AdministrarIngresosActivity extends AppCompatActivity {
     private TableLayout tableLayoutIngresos;
-    private EditText editTextFechaIn, editTextcategoria, editTextvalorneto, editTextDescrip, editTextFechaFin;
     private Button buttonRegisIng;
     private CategoriaControl catControl;
     private ArrayList<Ingreso> lstIngresos;
-    private Spinner SpinnerRepeticion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +53,7 @@ public class AdministrarIngresosActivity extends AppCompatActivity {
         buttonRegisIng = findViewById(R.id.buttonRegisIng);
 
         cargarIngresosDesdeArchivo();
-        
+
         mostrarDatosEnTabla(lstIngresos);
 
         buttonRegisIng.setOnClickListener(new View.OnClickListener() {
