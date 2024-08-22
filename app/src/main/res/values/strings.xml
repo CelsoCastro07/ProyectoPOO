@@ -8,6 +8,7 @@
     <string name="bienvenido_a_la_pantalla_principal_que_deseas_realizar_hoy">Bienvenido a la pantalla principal que deseas realizar hoy</string>
     <string name="administrar_categorias">Administrar Categorias</string>
     <string name="registrar">Registrar</string>
+    <string name="eliminar">Eliminar</string>
 
     <string-array name="repeticion_options">
         <item>por dia</item>

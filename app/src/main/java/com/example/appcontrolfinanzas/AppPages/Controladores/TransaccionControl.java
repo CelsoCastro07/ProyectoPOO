@@ -20,17 +20,12 @@ public class TransaccionControl implements Serializable {
         listaGastos = new ArrayList<>();
     }
 
-    private void inicializarDatosPorDefecto() {
-        listaIngresos.add(new Ingreso( "01/01/2024", "Salario", 450, "sueldo", "No definido", Repeticion.por_mes));
-        listaIngresos.add(new Ingreso( "01/07/2024", "Deudas a cobrar", 1000, "prestamo a familiar", "30/06/2025", Repeticion.sin_repeticion));
-    }
     public ArrayList<Ingreso> getListaIngresos(){
         return listaIngresos;
     }
     public ArrayList<Gasto> getListaGastos(){
         return listaGastos;
     }
-
 
     public void mostrarMenuGas(){
         System.out.printf("%-8s %-15s %-15s %-15s %-15s %-15s %-15s\n", "Codigo", "Fecha inicio", "Categoria", "Valor Neto", "Descripcion", "Fecha fin", "Repeticion");

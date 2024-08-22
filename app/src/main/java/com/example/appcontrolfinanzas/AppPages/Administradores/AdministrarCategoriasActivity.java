@@ -8,7 +8,6 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -16,8 +15,6 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.appcontrolfinanzas.AppPages.Controladores.*;
 import com.example.appcontrolfinanzas.AppPages.Vista.*;
 import com.example.appcontrolfinanzas.R;
-
-import com.example.appcontrolfinanzas.AppPages.Transacciones.*;
 import com.google.android.material.chip.Chip;
 
 import java.io.File;
@@ -51,7 +48,6 @@ public class AdministrarCategoriasActivity extends AppCompatActivity {
 
         //Inicializacion de las categorias
         catControl = (CategoriaControl) getIntent().getSerializableExtra("categoria");
-        principalCat = new CategoriaVista(catControl);
 
         cargarCategoriasDesdeArchivo();
 

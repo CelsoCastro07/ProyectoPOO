@@ -43,12 +43,6 @@ private TransaccionControl inGascontrol;
         catControl.getListaGastos().add("Pagos");
         catControl.getListaGastos().add("Alquiler");
 
-        inGascontrol = new TransaccionControl(catControl);
-        inGascontrol.getListaIngresos().add(new Ingreso("01/01/2024", "Salario", 450, "sueldo", "No definido", Repeticion.por_mes));
-        inGascontrol.getListaIngresos().add(new Ingreso("01/07/2024", "Deudas a cobrar", 1000, "prestamo a familiar", "30/06/2025", Repeticion.sin_repeticion));
-        inGascontrol.getListaGastos().add(new Gasto("01/01/2024", "Alquiler", 350, "Alquiler casa", "No definido", Repeticion.por_mes));
-        inGascontrol.getListaGastos().add(new Gasto("01/04/2024", "Pagos", 1000, "pago a banco", "30/01/2025", Repeticion.por_mes));
-
         mostrarAct();
         sItems.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -62,11 +56,9 @@ private TransaccionControl inGascontrol;
                         break;
                     case "2.Administrar Ingresos":
                         intent = new Intent(PaginaPrincipalActivity2.this, AdministrarIngresosActivity.class);
-                        intent.putExtra("listaIngresos", inGascontrol.getListaIngresos());
                         break;
                     case "3.Administrar Gastos":
                         intent = new Intent(PaginaPrincipalActivity2.this, AdministrarGastosActivity.class);
-                        intent.putExtra("listaGastos", inGascontrol.getListaGastos());
                         break;
                     /*
                     case "Cuentas por cobrar":

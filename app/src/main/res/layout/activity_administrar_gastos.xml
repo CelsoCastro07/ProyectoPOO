@@ -5,28 +5,25 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FEEEEE"
     tools:context=".AppPages.Administradores.AdministrarGastosActivity">
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <ImageView
         android:id="@+id/backgroundImage"
-        android:layout_width="0dp"
-        android:layout_height="500dp"
-        android:scaleType="centerCrop"
+        android:layout_width="match_parent"
+        android:layout_height="600dp"
         android:src="@drawable/background_image7"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/scrollGastos"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <TextView
         android:id="@+id/textViewAdGas"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="Administrar Gastos"
         android:textColor="@color/black"
-        android:gravity="center"
+        android:textSize="30sp"
         android:textStyle="bold|italic"
-        android:textSize="35sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -35,9 +32,9 @@
         android:id="@+id/scrollGastos"
         android:layout_width="match_parent"
         android:layout_height="420dp"
-        app:layout_constraintTop_toBottomOf="@+id/textViewAdGas"
         android:layout_marginTop="30dp"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAdGas">
 
         <HorizontalScrollView
             android:layout_width="match_parent"
@@ -47,24 +44,52 @@
                 android:id="@+id/tableLayoutGastos"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:stretchColumns="1"
-                android:background="#E4E2F0">
+                android:background="#E4E2F0"
+                android:stretchColumns="1">
 
                 <!-- Row for Column Headers -->
                 <TableRow tools:ignore="UselessParent">
-                    <TextView android:text="Código" android:padding="8dp" android:textStyle="bold"
+
+                    <TextView
+                        android:padding="8dp"
+                        android:text="Código"
+                        android:textStyle="bold"
                         tools:ignore="HardcodedText" />
-                    <TextView android:text="Fecha Inicio" android:padding="8dp" android:textStyle="bold"
+
+                    <TextView
+                        android:padding="8dp"
+                        android:text="Fecha Inicio"
+                        android:textStyle="bold"
                         tools:ignore="HardcodedText" />
-                    <TextView android:text="Categoría" android:padding="8dp" android:textStyle="bold"
+
+                    <TextView
+                        android:padding="8dp"
+                        android:text="Categoría"
+                        android:textStyle="bold"
                         tools:ignore="HardcodedText" />
-                    <TextView android:text="Valor Neto" android:padding="8dp" android:textStyle="bold"
+
+                    <TextView
+                        android:padding="8dp"
+                        android:text="Valor Neto"
+                        android:textStyle="bold"
                         tools:ignore="HardcodedText" />
-                    <TextView android:text="Descripción" android:padding="8dp" android:textStyle="bold"
+
+                    <TextView
+                        android:padding="8dp"
+                        android:text="Descripción"
+                        android:textStyle="bold"
                         tools:ignore="HardcodedText" />
-                    <TextView android:padding="8dp" android:text="Fecha Fin" android:textStyle="bold"
+
+                    <TextView
+                        android:padding="8dp"
+                        android:text="Fecha Fin"
+                        android:textStyle="bold"
                         tools:ignore="HardcodedText,TextContrastCheck" />
-                    <TextView android:text="Repetición" android:padding="8dp" android:textStyle="bold"
+
+                    <TextView
+                        android:padding="8dp"
+                        android:text="Repetición"
+                        android:textStyle="bold"
                         tools:ignore="HardcodedText" />
 
                 </TableRow>
@@ -74,169 +99,25 @@
         </HorizontalScrollView>
     </ScrollView>
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Datos de registro"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scrollGastos" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/textViewFechaInicio"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:text="Fecha de inicio: "
-        android:textColor="@color/black"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/editTextFechaIn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="13dp"
-        android:hint="DD/MM/AAAA"
-        android:inputType="text"
-        android:textSize="10sp"
-        app:layout_constraintStart_toEndOf="@+id/textViewFechaInicio"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,SmallSp,TextContrastCheck" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/textViewCategoria"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="Categoria:"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/textViewFechaInicio"
-        app:layout_constraintTop_toBottomOf="@+id/textViewFechaInicio" />
-
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/editTextcategoria"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:hint="Nombre de categoria"
-        android:inputType="text"
-        android:textSize="10sp"
-        app:layout_constraintStart_toEndOf="@+id/textViewCategoria"
-        app:layout_constraintTop_toBottomOf="@+id/editTextFechaIn"
-        tools:ignore="HardcodedText,SmallSp,TextContrastCheck" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/textViewValorNetop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="Valor neto:"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@id/textViewCategoria"
-        app:layout_constraintTop_toBottomOf="@+id/textViewCategoria" />
-
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/editTextvalorneto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:hint="Digite el monto"
-        android:inputType="text"
-        android:textSize="10sp"
-        app:layout_constraintStart_toEndOf="@+id/textViewValorNetop"
-        app:layout_constraintTop_toBottomOf="@+id/editTextcategoria"
-        tools:ignore="TextContrastCheck" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/textViewDescrip"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="Descripcion:"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@id/textViewValorNetop"
-        app:layout_constraintTop_toBottomOf="@+id/textViewValorNetop" />
-
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/editTextDescrip"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:hint="Detalle el ingreso"
-        android:inputType="text"
-        android:textSize="10sp"
-        app:layout_constraintStart_toEndOf="@+id/textViewDescrip"
-        app:layout_constraintTop_toBottomOf="@+id/editTextvalorneto"
-        tools:ignore="HardcodedText,SmallSp,TextContrastCheck" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/textViewFechaFin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="Fecha fin: "
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@id/textViewDescrip"
-        app:layout_constraintTop_toBottomOf="@+id/textViewDescrip" />
-
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/editTextFechaFin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:hint="DD/MM/AAAA"
-        android:inputType="text"
-        android:textSize="10sp"
-        app:layout_constraintStart_toEndOf="@+id/textViewFechaFin"
-        app:layout_constraintTop_toBottomOf="@+id/editTextDescrip"
-        tools:ignore="HardcodedText,SmallSp,TextContrastCheck" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/textViewRepeticion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="Repeticion:"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@id/textViewFechaFin"
-        app:layout_constraintTop_toBottomOf="@+id/textViewFechaFin" />
-
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/editTextRepeticion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:hint="por dia, por semana, por año"
-        android:inputType="text"
-        android:textSize="10sp"
-        app:layout_constraintStart_toEndOf="@+id/textViewRepeticion"
-        app:layout_constraintTop_toBottomOf="@+id/editTextFechaFin"
-        tools:ignore="HardcodedText,SmallSp,TextContrastCheck" />
-
-    <androidx.appcompat.widget.AppCompatButton
+    <Button
         android:id="@+id/buttonRegisGas"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
         android:backgroundTint="@color/purple_500"
         android:text="@string/registrar"
         android:textColor="@color/white"
-        android:layout_marginTop="150dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/buttonEliminar"
+        />
+    <Button
+        android:id="@+id/buttonEliminar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/eliminar"
+        app:layout_constraintStart_toEndOf="@+id/buttonRegisGas"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/backgroundImage" />
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

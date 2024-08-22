@@ -1,7 +1,5 @@
 package com.example.appcontrolfinanzas.AppPages.Administradores;
 
-//import static com.example.appcontrolfinanzas.AppPages.Administradores.AdministrarCategoriasActivity.catControl;
-
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -13,6 +11,7 @@ import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.appcontrolfinanzas.AppPages.Transacciones.*;
 import com.example.appcontrolfinanzas.AppPages.Controladores.*;
@@ -26,6 +25,12 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.appcontrolfinanzas.R;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 public class AdministrarIngresosActivity extends AppCompatActivity {
@@ -47,15 +52,12 @@ public class AdministrarIngresosActivity extends AppCompatActivity {
             return insets;
         });
         tableLayoutIngresos = findViewById(R.id.tableLayoutIngresos);
-        lstIngresos = (ArrayList<Ingreso>) getIntent().getSerializableExtra("listaIngresos");
-        if (lstIngresos == null) {
-            lstIngresos = new ArrayList<>();
-            lstIngresos.add(new Ingreso("01/01/2024", "Salario", 450, "sueldo", "No definido", Repeticion.por_mes));
-            lstIngresos.add(new Ingreso("01/07/2024", "Deudas a cobrar", 1000, "prestamo a familiar", "30/06/2025", Repeticion.sin_repeticion));// Inicializar si es null
-        }
+        buttonRegisIng = findViewById(R.id.buttonRegisIng);
+
+        cargarIngresosDesdeArchivo();
+        
         mostrarDatosEnTabla(lstIngresos);
 
-        buttonRegisIng = findViewById(R.id.buttonRegisIng);
         buttonRegisIng.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,15 +105,14 @@ public class AdministrarIngresosActivity extends AppCompatActivity {
                                         repeticion = Repeticion.no_definido;
                                         break;
                                 }
-
                                 // Crear un nuevo objeto Ingreso
                                 Ingreso nuevoIngreso = new Ingreso(fechaInicio, categoria, Double.parseDouble(valorNeto), descripcion, fechaFin, repeticion);
-
                                 // Agregar el nuevo ingreso a la lista
                                 lstIngresos.add(nuevoIngreso);
-
                                 // Mostrar el nuevo ingreso en la tabla
                                 mostrarDatosEnTabla(lstIngresos);
+                                // Guardar los ingresos en el archivo
+                                guardarIngresosEnArchivo();
                             }
                         })
                         .setNegativeButton("Cancelar", null)
@@ -158,4 +159,54 @@ public class AdministrarIngresosActivity extends AppCompatActivity {
         return textView;
     }
 
+    private void guardarIngresosEnArchivo() {
+        try {
+            File file = new File(getFilesDir(), "ingresos.txt");
+            FileOutputStream fos = new FileOutputStream(file);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(lstIngresos);
+            oos.close();
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void cargarIngresosDesdeArchivo() {
+        try {
+            File file = new File(getFilesDir(), "ingresos.txt");
+            if (file.exists()) {
+                FileInputStream fis = new FileInputStream(file);
+                ObjectInputStream ois = new ObjectInputStream(fis);
+                lstIngresos = (ArrayList<Ingreso>) ois.readObject();
+                ois.close();
+                fis.close();
+            } else {
+                lstIngresos = new ArrayList<>();
+                lstIngresos.add(new Ingreso("01/01/2024", "Salario", 450, "sueldo", "No definido", Repeticion.por_mes));
+                lstIngresos.add(new Ingreso("01/07/2024", "Deudas a cobrar", 1000, "prestamo a familiar", "30/06/2025", Repeticion.sin_repeticion));
+                // Archivo no encontrado, mostrar un Toast
+                Toast.makeText(this, "Archivo no encontrado. Datos inicializados con valores predeterminados.", Toast.LENGTH_LONG).show();
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            // Mostrar un Toast en caso de error y inicializar lista con datos predeterminados
+            Toast.makeText(this, "Error al cargar archivo. Datos inicializados con valores predeterminados.", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Cargar ingresos al reanudar la actividad
+        cargarIngresosDesdeArchivo();
+        mostrarDatosEnTabla(lstIngresos);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // Guardar ingresos al pausar la actividad
+        guardarIngresosEnArchivo();
+    }
 }
