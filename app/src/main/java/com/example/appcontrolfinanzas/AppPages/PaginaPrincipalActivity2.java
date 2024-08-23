@@ -56,9 +56,11 @@ private TransaccionControl inGascontrol;
                         break;
                     case "2.Administrar Ingresos":
                         intent = new Intent(PaginaPrincipalActivity2.this, AdministrarIngresosActivity.class);
+                        intent.putExtra("categoria", catControl);
                         break;
                     case "3.Administrar Gastos":
                         intent = new Intent(PaginaPrincipalActivity2.this, AdministrarGastosActivity.class);
+                        intent.putExtra("categoria", catControl);
                         break;
                     /*
                     case "Cuentas por cobrar":

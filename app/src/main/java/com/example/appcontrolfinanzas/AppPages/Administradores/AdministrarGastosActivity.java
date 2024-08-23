@@ -38,8 +38,9 @@ import java.util.ArrayList;
 
 public class AdministrarGastosActivity extends AppCompatActivity {
     private TableLayout tableLayoutGastos;
-    private EditText editTextFechaIn, editTextcategoria, editTextvalorneto, editTextDescrip, editTextFechaFin, editTextRepeticion;
-    private Button buttonRegisGas;
+    private EditText editTextFechaInDialog, editTextCategoriaDialog, editTextValorNetoDialog, editTextDescripDialog, editTextFechaFinDialog;
+    private Spinner spinnerRepeticionDialog;
+    private Button buttonRegisGas, buttonEliminarGas;
     private CategoriaControl catControl;
     private ArrayList<Gasto> lstGasto;
     @Override
@@ -54,6 +55,7 @@ public class AdministrarGastosActivity extends AppCompatActivity {
         });
         tableLayoutGastos = findViewById(R.id.tableLayoutGastos);
         buttonRegisGas = findViewById(R.id.buttonRegisGas);
+        buttonEliminarGas = findViewById(R.id.buttonEliminarGas);
 
         cargarGastosDesdeArchivo();
 
@@ -73,17 +75,17 @@ public class AdministrarGastosActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 // Obtener los datos ingresados por el usuario
-                                EditText editTextFechaInDialog = dialogView.findViewById(R.id.editTextFechaInDialog);
-                                EditText editTextCategoriaDialog = dialogView.findViewById(R.id.editTextCategoriaDialog);
-                                EditText editTextValorNetoDialog = dialogView.findViewById(R.id.editTextValorNetoDialog);
-                                EditText editTextDescripcionDialog = dialogView.findViewById(R.id.editTextDescripcionDialog);
-                                EditText editTextFechaFinDialog = dialogView.findViewById(R.id.editTextFechaFinDialog);
-                                Spinner spinnerRepeticionDialog = dialogView.findViewById(R.id.spinnerRepeticionDialog);
+                                editTextFechaInDialog = dialogView.findViewById(R.id.editTextFechaInDialog);
+                                editTextCategoriaDialog = dialogView.findViewById(R.id.editTextCategoriaDialog);
+                                editTextValorNetoDialog = dialogView.findViewById(R.id.editTextValorNetoDialog);
+                                editTextDescripDialog = dialogView.findViewById(R.id.editTextDescripcionDialog);
+                                editTextFechaFinDialog = dialogView.findViewById(R.id.editTextFechaFinDialog);
+                                spinnerRepeticionDialog = dialogView.findViewById(R.id.spinnerRepeticionDialog);
 
                                 String fechaInicio = editTextFechaInDialog.getText().toString();
                                 String categoria = editTextCategoriaDialog.getText().toString();
                                 String valorNeto = editTextValorNetoDialog.getText().toString();
-                                String descripcion = editTextDescripcionDialog.getText().toString();
+                                String descripcion = editTextDescripDialog.getText().toString();
                                 String fechaFin = editTextFechaFinDialog.getText().toString();
                                 String repeticionSrt = spinnerRepeticionDialog.getSelectedItem().toString();
 
@@ -114,6 +116,38 @@ public class AdministrarGastosActivity extends AppCompatActivity {
                                 mostrarDatosEnTabla(lstGasto);
                                 // Guardar los ingresos en el archivo
                                 guardarGastosEnArchivo();
+                            }
+                        })
+                        .setNegativeButton("Cancelar", null)
+                        .show();
+            }
+        });
+
+        buttonEliminarGas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LayoutInflater inflater = LayoutInflater.from(AdministrarGastosActivity.this);
+                View dialogView = inflater.inflate(R.layout.dialog_delete_income, null);
+
+                // Crear el AlertDialog para eliminar ingreso
+                AlertDialog.Builder builder = new AlertDialog.Builder(AdministrarGastosActivity.this);
+                builder.setView(dialogView)
+                        .setTitle("Eliminar Ingreso")
+                        .setPositiveButton("Eliminar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Obtener el código ingresado por el usuario
+                                EditText editTextCodigo = dialogView.findViewById(R.id.editTextCodigoDialog);
+                                String codigoStr = editTextCodigo.getText().toString();
+                                try {
+                                    int codigo = Integer.parseInt(codigoStr);
+                                    eliminarIngresoPorCodigo(codigo);
+                                    guardarGastosEnArchivo();
+                                    mostrarDatosEnTabla(lstGasto);
+                                } catch (NumberFormatException e) {
+                                    Toast.makeText(AdministrarGastosActivity.this, "Código inválido.", Toast.LENGTH_LONG).show();
+                                }
+
                             }
                         })
                         .setNegativeButton("Cancelar", null)
@@ -171,7 +205,7 @@ public class AdministrarGastosActivity extends AppCompatActivity {
 
     private void cargarGastosDesdeArchivo() {
         try {
-            File file = new File(getFilesDir(), "ingresos.txt");
+            File file = new File(getFilesDir(), "Gastos.txt");
             if (file.exists()) {
                 FileInputStream fis = new FileInputStream(file);
                 ObjectInputStream ois = new ObjectInputStream(fis);
@@ -198,12 +232,31 @@ public class AdministrarGastosActivity extends AppCompatActivity {
         cargarGastosDesdeArchivo();
         mostrarDatosEnTabla(lstGasto);
     }
-
     @Override
     protected void onPause() {
         super.onPause();
         // Guardar ingresos al pausar la actividad
         guardarGastosEnArchivo();
+    }
+    private void eliminarIngresoPorCodigo(int codigo) {
+        boolean encontrado = false;
+        for (int i = 0; i < lstGasto.size(); i++) {
+            for (Gasto ing: lstGasto) {
+                if (ing.getCodigo() == codigo){
+                    lstGasto.remove(i);
+                    encontrado = true;
+                    break;
+                }
+            }
+        }
+
+        if (encontrado) {
+            guardarGastosEnArchivo();  // Guardar los cambios
+            mostrarDatosEnTabla(lstGasto);  // Actualizar la tabla
+            Toast.makeText(this, "Gasto eliminado correctamente.", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "No se encontró un Gasto con ese código.", Toast.LENGTH_SHORT).show();
+        }
     }
 
 }

@@ -51,15 +51,6 @@ public class AdministrarCategoriasActivity extends AppCompatActivity {
 
         cargarCategoriasDesdeArchivo();
 
-        //Datos por defecto
-        if (catControl.getListaIngresos().isEmpty() && catControl.getListaGastos().isEmpty()) {
-            catControl.getListaIngresos().add("Deudas a cobrar");
-            catControl.getListaIngresos().add("Salario");
-            catControl.getListaIngresos().add("Bono solidario");
-            catControl.getListaGastos().add("Pagos");
-            catControl.getListaGastos().add("Alquiler");
-            guardarCategoriasEnArchivo();
-        }
 
         //Inicializacion de los apartados de la interfaz
         etNombreCategoria = findViewById(R.id.etNombreCategoria);
@@ -225,6 +216,12 @@ public class AdministrarCategoriasActivity extends AppCompatActivity {
                 // Archivo no encontrado, inicializar listas vacías
                 catControl.setListaIngresos(new ArrayList<>());
                 catControl.setListaGastos(new ArrayList<>());
+                catControl.getListaIngresos().add("Deudas a cobrar");
+                catControl.getListaIngresos().add("Salario");
+                catControl.getListaIngresos().add("Bono solidario");
+                catControl.getListaGastos().add("Pagos");
+                catControl.getListaGastos().add("Alquiler");
+                guardarCategoriasEnArchivo();
             }
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();

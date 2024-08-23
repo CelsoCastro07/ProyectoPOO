@@ -35,7 +35,7 @@ import java.util.ArrayList;
 
 public class AdministrarIngresosActivity extends AppCompatActivity {
     private TableLayout tableLayoutIngresos;
-    private Button buttonRegisIng;
+    private Button buttonRegisIng,buttonEliminarIng;
     private CategoriaControl catControl;
     private ArrayList<Ingreso> lstIngresos;
 
@@ -51,6 +51,7 @@ public class AdministrarIngresosActivity extends AppCompatActivity {
         });
         tableLayoutIngresos = findViewById(R.id.tableLayoutIngresos);
         buttonRegisIng = findViewById(R.id.buttonRegisIng);
+        buttonEliminarIng = findViewById(R.id.buttonEliminar);
 
         cargarIngresosDesdeArchivo();
 
@@ -69,6 +70,8 @@ public class AdministrarIngresosActivity extends AppCompatActivity {
                         .setPositiveButton("Registrar", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                catControl = (CategoriaControl) getIntent().getSerializableExtra("categoria");
+
                                 // Obtener los datos ingresados por el usuario
                                 EditText editTextFechaInDialog = dialogView.findViewById(R.id.editTextFechaInDialog);
                                 EditText editTextCategoriaDialog = dialogView.findViewById(R.id.editTextCategoriaDialog);
@@ -111,6 +114,38 @@ public class AdministrarIngresosActivity extends AppCompatActivity {
                                 mostrarDatosEnTabla(lstIngresos);
                                 // Guardar los ingresos en el archivo
                                 guardarIngresosEnArchivo();
+                            }
+                        })
+                        .setNegativeButton("Cancelar", null)
+                        .show();
+            }
+        });
+
+        buttonEliminarIng.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LayoutInflater inflater = LayoutInflater.from(AdministrarIngresosActivity.this);
+                View dialogView = inflater.inflate(R.layout.dialog_delete_income, null);
+
+                // Crear el AlertDialog para eliminar ingreso
+                AlertDialog.Builder builder = new AlertDialog.Builder(AdministrarIngresosActivity.this);
+                builder.setView(dialogView)
+                        .setTitle("Eliminar Ingreso")
+                        .setPositiveButton("Eliminar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Obtener el código ingresado por el usuario
+                                EditText editTextCodigo = dialogView.findViewById(R.id.editTextCodigoDialog);
+                                String codigoStr = editTextCodigo.getText().toString();
+                                try {
+                                    int codigo = Integer.parseInt(codigoStr);
+                                    eliminarIngresoPorCodigo(codigo);
+                                    guardarIngresosEnArchivo();
+                                    mostrarDatosEnTabla(lstIngresos);
+                                } catch (NumberFormatException e) {
+                                    Toast.makeText(AdministrarIngresosActivity.this, "Código inválido.", Toast.LENGTH_LONG).show();
+                                }
+
                             }
                         })
                         .setNegativeButton("Cancelar", null)
@@ -206,5 +241,26 @@ public class AdministrarIngresosActivity extends AppCompatActivity {
         super.onPause();
         // Guardar ingresos al pausar la actividad
         guardarIngresosEnArchivo();
+    }
+
+    private void eliminarIngresoPorCodigo(int codigo) {
+        boolean encontrado = false;
+        for (int i = 0; i < lstIngresos.size(); i++) {
+            for (Ingreso ing: lstIngresos) {
+                if (ing.getCodigo() == codigo){
+                    lstIngresos.remove(i);
+                    encontrado = true;
+                    break;
+                }
+            }
+        }
+
+        if (encontrado) {
+            guardarIngresosEnArchivo();  // Guardar los cambios
+            mostrarDatosEnTabla(lstIngresos);  // Actualizar la tabla
+            Toast.makeText(this, "Ingreso eliminado correctamente.", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "No se encontró un ingreso con ese código.", Toast.LENGTH_SHORT).show();
+        }
     }
 }
