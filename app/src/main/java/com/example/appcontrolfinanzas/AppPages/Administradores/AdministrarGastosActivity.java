@@ -111,7 +111,17 @@ public class AdministrarGastosActivity extends AppCompatActivity {
                                 // Crear un nuevo objeto Ingreso
                                 Gasto nuevoGasto = new Gasto(fechaInicio, categoria, Double.parseDouble(valorNeto), descripcion, fechaFin, repeticion);
                                 // Agregar el nuevo ingreso a la lista
-                                lstGasto.add(nuevoGasto);
+                                Boolean Agg = false;
+                                for (Gasto ing:lstGasto) {
+                                    if (ing.equals(nuevoGasto)) {
+                                        Agg = true;
+                                    }
+                                }
+                                if (Agg = false){
+                                    lstGasto.add(nuevoGasto);
+                                }else{
+                                    Toast.makeText(AdministrarGastosActivity.this, "El gasto ya existe", Toast.LENGTH_SHORT).show();
+                                }
                                 // Mostrar el nuevo ingreso en la tabla
                                 mostrarDatosEnTabla(lstGasto);
                                 // Guardar los ingresos en el archivo

@@ -109,7 +109,17 @@ public class AdministrarIngresosActivity extends AppCompatActivity {
                                 // Crear un nuevo objeto Ingreso
                                 Ingreso nuevoIngreso = new Ingreso(fechaInicio, categoria, Double.parseDouble(valorNeto), descripcion, fechaFin, repeticion);
                                 // Agregar el nuevo ingreso a la lista
-                                lstIngresos.add(nuevoIngreso);
+                                Boolean Agg = false;
+                                for (Ingreso ing:lstIngresos) {
+                                    if (ing.equals(nuevoIngreso)) {
+                                        Agg = true;
+                                    }
+                                }
+                                if (Agg = false){
+                                    lstIngresos.add(nuevoIngreso);
+                                }else{
+                                    Toast.makeText(AdministrarIngresosActivity.this, "El ingreso ya existe", Toast.LENGTH_SHORT).show();
+                                }
                                 // Mostrar el nuevo ingreso en la tabla
                                 mostrarDatosEnTabla(lstIngresos);
                                 // Guardar los ingresos en el archivo
@@ -242,7 +252,6 @@ public class AdministrarIngresosActivity extends AppCompatActivity {
         // Guardar ingresos al pausar la actividad
         guardarIngresosEnArchivo();
     }
-
     private void eliminarIngresoPorCodigo(int codigo) {
         boolean encontrado = false;
         for (int i = 0; i < lstIngresos.size(); i++) {
