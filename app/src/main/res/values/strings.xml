@@ -11,6 +11,7 @@
     <string name="eliminar">Eliminar</string>
 
     <string-array name="repeticion_options">
+        <item>no definido</item>
         <item>por dia</item>
         <item>por semana</item>
         <item>por mes</item>

@@ -1,6 +1,8 @@
 package com.example.appcontrolfinanzas.AppPages.Administradores;
 
 import android.content.DialogInterface;
+import android.icu.text.SimpleDateFormat;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -31,11 +33,17 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class AdministrarIngresosActivity extends AppCompatActivity {
     private TableLayout tableLayoutIngresos;
-    private Button buttonRegisIng,buttonEliminarIng;
+    private Button buttonRegisIng,buttonEliminarIng,buttonFinalizarIng;
     private CategoriaControl catControl;
     private ArrayList<Ingreso> lstIngresos;
 
@@ -52,6 +60,7 @@ public class AdministrarIngresosActivity extends AppCompatActivity {
         tableLayoutIngresos = findViewById(R.id.tableLayoutIngresos);
         buttonRegisIng = findViewById(R.id.buttonRegisIng);
         buttonEliminarIng = findViewById(R.id.buttonEliminar);
+        buttonFinalizarIng = findViewById(R.id.buttonFinalizarIng);
 
         cargarIngresosDesdeArchivo();
 
@@ -109,13 +118,14 @@ public class AdministrarIngresosActivity extends AppCompatActivity {
                                 // Crear un nuevo objeto Ingreso
                                 Ingreso nuevoIngreso = new Ingreso(fechaInicio, categoria, Double.parseDouble(valorNeto), descripcion, fechaFin, repeticion);
                                 // Agregar el nuevo ingreso a la lista
-                                Boolean Agg = false;
+                                boolean Agg = false;
                                 for (Ingreso ing:lstIngresos) {
                                     if (ing.equals(nuevoIngreso)) {
                                         Agg = true;
+                                        break;
                                     }
                                 }
-                                if (Agg = false){
+                                if (!Agg){
                                     lstIngresos.add(nuevoIngreso);
                                 }else{
                                     Toast.makeText(AdministrarIngresosActivity.this, "El ingreso ya existe", Toast.LENGTH_SHORT).show();
@@ -156,6 +166,34 @@ public class AdministrarIngresosActivity extends AppCompatActivity {
                                     Toast.makeText(AdministrarIngresosActivity.this, "Código inválido.", Toast.LENGTH_LONG).show();
                                 }
 
+                            }
+                        })
+                        .setNegativeButton("Cancelar", null)
+                        .show();
+            }
+        });
+
+        buttonFinalizarIng.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LayoutInflater inflater = LayoutInflater.from(AdministrarIngresosActivity.this);
+                View dialogView = inflater.inflate(R.layout.dialog_finalizar, null);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(AdministrarIngresosActivity.this);
+                builder.setView(dialogView)
+                        .setTitle("Finalizar Ingreso")
+                        .setPositiveButton("Finalizar", (dialog, which) -> {
+                            EditText editTextCodigo = dialogView.findViewById(R.id.editTextCodigoFinalizar);
+                            EditText editTextNuevaFechaFin = dialogView.findViewById(R.id.editTextNuevaFechaFin);
+
+                            String codigoStr = editTextCodigo.getText().toString();
+                            String nuevaFechaFin = editTextNuevaFechaFin.getText().toString();
+
+                            try {
+                                int codigo = Integer.parseInt(codigoStr);
+                                actualizarFechaFin(codigo, nuevaFechaFin);
+                            } catch (NumberFormatException e) {
+                                Toast.makeText(AdministrarIngresosActivity.this, "Código inválido.", Toast.LENGTH_SHORT).show();
                             }
                         })
                         .setNegativeButton("Cancelar", null)
@@ -252,6 +290,7 @@ public class AdministrarIngresosActivity extends AppCompatActivity {
         // Guardar ingresos al pausar la actividad
         guardarIngresosEnArchivo();
     }
+
     private void eliminarIngresoPorCodigo(int codigo) {
         boolean encontrado = false;
         for (int i = 0; i < lstIngresos.size(); i++) {
@@ -271,5 +310,55 @@ public class AdministrarIngresosActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "No se encontró un ingreso con ese código.", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void actualizarFechaFin(int codigo, String nuevaFechaFin) {
+        boolean actualizado = false;
+
+        // Definir formato de fecha
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        Date nuevaFechaFinDate;
+        try {
+            nuevaFechaFinDate = sdf.parse(nuevaFechaFin);
+            if (nuevaFechaFinDate == null) {
+                throw new ParseException("Fecha inválida", 0);
+            }
+        } catch (ParseException e) {
+            Toast.makeText(this, "Formato de fecha inválido. Debe ser dd/MM/yyyy.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Buscar el ingreso y actualizar la fecha de fin
+        for (Ingreso ingreso : lstIngresos) {
+            try {
+                Date fechaInicioDate = sdf.parse(ingreso.getFechaIn());
+                if (fechaInicioDate == null) {
+                    throw new ParseException("Fecha inválida", 0);
+                }
+
+                if (nuevaFechaFinDate.before(fechaInicioDate)) {
+                    Toast.makeText(this, "La nueva fecha de fin debe ser después de la fecha de inicio.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // Actualizar fecha de fin
+                ingreso.setFechaFin(nuevaFechaFin);
+                actualizado = true;
+                break;
+            } catch (ParseException e) {
+                e.printStackTrace();
+                Toast.makeText(this, "Error al procesar las fechas.", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        // Mostrar mensaje de éxito o error
+        if (actualizado) {
+            Toast.makeText(this, "Fecha de fin actualizada.", Toast.LENGTH_SHORT).show();
+            mostrarDatosEnTabla(lstIngresos);
+            guardarIngresosEnArchivo();
+        } else {
+            Toast.makeText(this, "Ingreso no encontrado.", Toast.LENGTH_SHORT).show();
+        }
+
     }
 }

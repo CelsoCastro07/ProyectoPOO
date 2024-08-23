@@ -1,6 +1,7 @@
 package com.example.appcontrolfinanzas.AppPages.Administradores;
 
 import android.content.DialogInterface;
+import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -33,14 +34,17 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 
 public class AdministrarGastosActivity extends AppCompatActivity {
     private TableLayout tableLayoutGastos;
     private EditText editTextFechaInDialog, editTextCategoriaDialog, editTextValorNetoDialog, editTextDescripDialog, editTextFechaFinDialog;
     private Spinner spinnerRepeticionDialog;
-    private Button buttonRegisGas, buttonEliminarGas;
+    private Button buttonRegisGas, buttonEliminarGas, buttonFinalizarGas;
     private CategoriaControl catControl;
     private ArrayList<Gasto> lstGasto;
     @Override
@@ -56,6 +60,7 @@ public class AdministrarGastosActivity extends AppCompatActivity {
         tableLayoutGastos = findViewById(R.id.tableLayoutGastos);
         buttonRegisGas = findViewById(R.id.buttonRegisGas);
         buttonEliminarGas = findViewById(R.id.buttonEliminarGas);
+        buttonFinalizarGas =findViewById(R.id.buttonFinalizarGas);
 
         cargarGastosDesdeArchivo();
 
@@ -111,13 +116,14 @@ public class AdministrarGastosActivity extends AppCompatActivity {
                                 // Crear un nuevo objeto Ingreso
                                 Gasto nuevoGasto = new Gasto(fechaInicio, categoria, Double.parseDouble(valorNeto), descripcion, fechaFin, repeticion);
                                 // Agregar el nuevo ingreso a la lista
-                                Boolean Agg = false;
+                                boolean Agg = false;
                                 for (Gasto ing:lstGasto) {
                                     if (ing.equals(nuevoGasto)) {
                                         Agg = true;
+                                        break;
                                     }
                                 }
-                                if (Agg = false){
+                                if (!Agg){
                                     lstGasto.add(nuevoGasto);
                                 }else{
                                     Toast.makeText(AdministrarGastosActivity.this, "El gasto ya existe", Toast.LENGTH_SHORT).show();
@@ -158,6 +164,34 @@ public class AdministrarGastosActivity extends AppCompatActivity {
                                     Toast.makeText(AdministrarGastosActivity.this, "Código inválido.", Toast.LENGTH_LONG).show();
                                 }
 
+                            }
+                        })
+                        .setNegativeButton("Cancelar", null)
+                        .show();
+            }
+        });
+
+        buttonFinalizarGas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LayoutInflater inflater = LayoutInflater.from(AdministrarGastosActivity.this);
+                View dialogView = inflater.inflate(R.layout.dialog_finalizar, null);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(AdministrarGastosActivity.this);
+                builder.setView(dialogView)
+                        .setTitle("Finalizar Ingreso")
+                        .setPositiveButton("Finalizar", (dialog, which) -> {
+                            EditText editTextCodigo = dialogView.findViewById(R.id.editTextCodigoFinalizar);
+                            EditText editTextNuevaFechaFin = dialogView.findViewById(R.id.editTextNuevaFechaFin);
+
+                            String codigoStr = editTextCodigo.getText().toString();
+                            String nuevaFechaFin = editTextNuevaFechaFin.getText().toString();
+
+                            try {
+                                int codigo = Integer.parseInt(codigoStr);
+                                actualizarFechaFin(codigo, nuevaFechaFin);
+                            } catch (NumberFormatException e) {
+                                Toast.makeText(AdministrarGastosActivity.this, "Código inválido.", Toast.LENGTH_SHORT).show();
                             }
                         })
                         .setNegativeButton("Cancelar", null)
@@ -235,6 +269,7 @@ public class AdministrarGastosActivity extends AppCompatActivity {
             Toast.makeText(this, "Error al cargar archivo. Datos inicializados con valores predeterminados.", Toast.LENGTH_LONG).show();
         }
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -242,12 +277,14 @@ public class AdministrarGastosActivity extends AppCompatActivity {
         cargarGastosDesdeArchivo();
         mostrarDatosEnTabla(lstGasto);
     }
+
     @Override
     protected void onPause() {
         super.onPause();
         // Guardar ingresos al pausar la actividad
         guardarGastosEnArchivo();
     }
+
     private void eliminarIngresoPorCodigo(int codigo) {
         boolean encontrado = false;
         for (int i = 0; i < lstGasto.size(); i++) {
@@ -268,5 +305,57 @@ public class AdministrarGastosActivity extends AppCompatActivity {
             Toast.makeText(this, "No se encontró un Gasto con ese código.", Toast.LENGTH_SHORT).show();
         }
     }
+
+    private void actualizarFechaFin(int codigo, String nuevaFechaFin) {
+        boolean actualizado = false;
+
+        // Definir formato de fecha
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        Date nuevaFechaFinDate;
+        try {
+            nuevaFechaFinDate = sdf.parse(nuevaFechaFin);
+            if (nuevaFechaFinDate == null) {
+                throw new ParseException("Fecha inválida", 0);
+            }
+        } catch (ParseException e) {
+            Toast.makeText(this, "Formato de fecha inválido. Debe ser dd/MM/yyyy.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Buscar el ingreso y actualizar la fecha de fin
+        for (Gasto gasto : lstGasto) {
+            try {
+                Date fechaInicioDate = sdf.parse(gasto.getFechaIn());
+                if (fechaInicioDate == null) {
+                    throw new ParseException("Fecha inválida", 0);
+                }
+
+                if (nuevaFechaFinDate.before(fechaInicioDate)) {
+                    Toast.makeText(this, "La nueva fecha de fin debe ser después de la fecha de inicio.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // Actualizar fecha de fin
+                gasto.setFechaFin(nuevaFechaFin);
+                actualizado = true;
+                break;
+            } catch (ParseException e) {
+                e.printStackTrace();
+                Toast.makeText(this, "Error al procesar las fechas.", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        // Mostrar mensaje de éxito o error
+        if (actualizado) {
+            Toast.makeText(this, "Fecha de fin actualizada.", Toast.LENGTH_SHORT).show();
+            mostrarDatosEnTabla(lstGasto);
+            guardarGastosEnArchivo();
+        } else {
+            Toast.makeText(this, "Ingreso no encontrado.", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+
 
 }
