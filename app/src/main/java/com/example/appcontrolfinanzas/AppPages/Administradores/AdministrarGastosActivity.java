@@ -1,7 +1,7 @@
 package com.example.appcontrolfinanzas.AppPages.Administradores;
 
 import android.content.DialogInterface;
-import android.icu.text.SimpleDateFormat;
+import java.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -324,24 +324,26 @@ public class AdministrarGastosActivity extends AppCompatActivity {
 
         // Buscar el ingreso y actualizar la fecha de fin
         for (Gasto gasto : lstGasto) {
-            try {
-                Date fechaInicioDate = sdf.parse(gasto.getFechaIn());
-                if (fechaInicioDate == null) {
-                    throw new ParseException("Fecha inválida", 0);
-                }
+            if (gasto.getCodigo() == codigo) {
+                try {
+                    Date fechaInicioDate = sdf.parse(gasto.getFechaIn());
+                    if (fechaInicioDate == null) {
+                        throw new ParseException("Fecha inválida", 0);
+                    }
 
-                if (nuevaFechaFinDate.before(fechaInicioDate)) {
-                    Toast.makeText(this, "La nueva fecha de fin debe ser después de la fecha de inicio.", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+                    if (nuevaFechaFinDate.before(fechaInicioDate)) {
+                        Toast.makeText(this, "La nueva fecha de fin debe ser después de la fecha de inicio.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
 
-                // Actualizar fecha de fin
-                gasto.setFechaFin(nuevaFechaFin);
-                actualizado = true;
-                break;
-            } catch (ParseException e) {
-                e.printStackTrace();
-                Toast.makeText(this, "Error al procesar las fechas.", Toast.LENGTH_SHORT).show();
+                    // Actualizar fecha de fin
+                    gasto.setFechaFin(nuevaFechaFin);
+                    actualizado = true;
+                    break;
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    Toast.makeText(this, "Error al procesar las fechas.", Toast.LENGTH_SHORT).show();
+                }
             }
         }
 

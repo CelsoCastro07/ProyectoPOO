@@ -1,7 +1,7 @@
 package com.example.appcontrolfinanzas.AppPages.Administradores;
 
 import android.content.DialogInterface;
-import android.icu.text.SimpleDateFormat;
+import java.text.SimpleDateFormat;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -330,26 +330,27 @@ public class AdministrarIngresosActivity extends AppCompatActivity {
 
         // Buscar el ingreso y actualizar la fecha de fin
         for (Ingreso ingreso : lstIngresos) {
-            try {
-                Date fechaInicioDate = sdf.parse(ingreso.getFechaIn());
-                if (fechaInicioDate == null) {
-                    throw new ParseException("Fecha inválida", 0);
-                }
-
+            if(ingreso.getCodigo()==codigo){
+                try {
+                    Date fechaInicioDate = sdf.parse(ingreso.getFechaIn());
+                    if (fechaInicioDate == null) {
+                        throw new ParseException("Fecha inválida", 0);
+                    }
                 if (nuevaFechaFinDate.before(fechaInicioDate)) {
                     Toast.makeText(this, "La nueva fecha de fin debe ser después de la fecha de inicio.", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                // Actualizar fecha de fin
-                ingreso.setFechaFin(nuevaFechaFin);
-                actualizado = true;
-                break;
-            } catch (ParseException e) {
-                e.printStackTrace();
-                Toast.makeText(this, "Error al procesar las fechas.", Toast.LENGTH_SHORT).show();
+                    // Actualizar fecha de fin
+                    ingreso.setFechaFin(nuevaFechaFin);
+                    actualizado = true;
+                    break;
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    Toast.makeText(this, "Error al procesar las fechas.", Toast.LENGTH_SHORT).show();
+                }
             }
-        }
+            }
 
         // Mostrar mensaje de éxito o error
         if (actualizado) {
