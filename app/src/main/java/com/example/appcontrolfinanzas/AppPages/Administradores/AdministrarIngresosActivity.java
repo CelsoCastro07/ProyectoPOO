@@ -2,11 +2,12 @@ package com.example.appcontrolfinanzas.AppPages.Administradores;
 
 import android.content.DialogInterface;
 import java.text.SimpleDateFormat;
-import android.os.Build;
+
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -34,9 +35,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.text.ParseException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
@@ -46,6 +44,8 @@ public class AdministrarIngresosActivity extends AppCompatActivity {
     private Button buttonRegisIng,buttonEliminarIng,buttonFinalizarIng;
     private CategoriaControl catControl;
     private ArrayList<Ingreso> lstIngresos;
+    private ArrayList<String> categorias;
+    public String fileNameCat = "categoriasIngreso.txt";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,19 +58,27 @@ public class AdministrarIngresosActivity extends AppCompatActivity {
             return insets;
         });
         tableLayoutIngresos = findViewById(R.id.tableLayoutIngresos);
-        buttonRegisIng = findViewById(R.id.buttonRegisIng);
+        buttonRegisIng = findViewById(R.id.buttonRegistrar);
         buttonEliminarIng = findViewById(R.id.buttonEliminar);
         buttonFinalizarIng = findViewById(R.id.buttonFinalizarIng);
 
         cargarIngresosDesdeArchivo();
+        cargarCategoriasDesdeArchivo(fileNameCat);
 
         mostrarDatosEnTabla(lstIngresos);
+
 
         buttonRegisIng.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 LayoutInflater inflater = LayoutInflater.from(AdministrarIngresosActivity.this);
                 View dialogView = inflater.inflate(R.layout.dialog_register_income, null);
+
+                Spinner spinnerCategoriaDialog = dialogView.findViewById(R.id.spinner_categorias);
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(AdministrarIngresosActivity.this, android.R.layout.simple_spinner_item, categorias);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                spinnerCategoriaDialog.setAdapter(adapter);
 
                 // Crear el AlertDialog
                 AlertDialog.Builder builder = new AlertDialog.Builder(AdministrarIngresosActivity.this);
@@ -83,14 +91,13 @@ public class AdministrarIngresosActivity extends AppCompatActivity {
 
                                 // Obtener los datos ingresados por el usuario
                                 EditText editTextFechaInDialog = dialogView.findViewById(R.id.editTextFechaInDialog);
-                                EditText editTextCategoriaDialog = dialogView.findViewById(R.id.editTextCategoriaDialog);
                                 EditText editTextValorNetoDialog = dialogView.findViewById(R.id.editTextValorNetoDialog);
                                 EditText editTextDescripcionDialog = dialogView.findViewById(R.id.editTextDescripcionDialog);
                                 EditText editTextFechaFinDialog = dialogView.findViewById(R.id.editTextFechaFinDialog);
                                 Spinner spinnerRepeticionDialog = dialogView.findViewById(R.id.spinnerRepeticionDialog);
 
                                 String fechaInicio = editTextFechaInDialog.getText().toString();
-                                String categoria = editTextCategoriaDialog.getText().toString();
+                                String categoria = spinnerCategoriaDialog.getSelectedItem().toString();
                                 String valorNeto = editTextValorNetoDialog.getText().toString();
                                 String descripcion = editTextDescripcionDialog.getText().toString();
                                 String fechaFin = editTextFechaFinDialog.getText().toString();
@@ -101,35 +108,32 @@ public class AdministrarIngresosActivity extends AppCompatActivity {
                                     case "por mes":
                                         repeticion = Repeticion.por_mes;
                                         break;
-                                    case "por semana":
-                                        repeticion = Repeticion.por_semana;
-                                        break;
-                                    case "por año":
-                                        repeticion = Repeticion.por_anio;
-                                        break;
-                                    case "por dia":
-                                        repeticion = Repeticion.por_dia;
-                                        break;
                                     // Agregar otros casos si es necesario
                                     default:
-                                        repeticion = Repeticion.no_definido;
+                                        repeticion = Repeticion.sin_repeticion;
                                         break;
                                 }
                                 // Crear un nuevo objeto Ingreso
-                                Ingreso nuevoIngreso = new Ingreso(fechaInicio, categoria, Double.parseDouble(valorNeto), descripcion, fechaFin, repeticion);
-                                // Agregar el nuevo ingreso a la lista
-                                boolean Agg = false;
-                                for (Ingreso ing:lstIngresos) {
-                                    if (ing.equals(nuevoIngreso)) {
-                                        Agg = true;
-                                        break;
+                                try {
+                                    Ingreso nuevoIngreso = new Ingreso(fechaInicio, categoria, Double.parseDouble(valorNeto), descripcion, fechaFin, repeticion);
+                                    boolean Agg = false;
+                                    for (Ingreso ing:lstIngresos) {
+                                        if (ing.equals(nuevoIngreso)) {
+                                            Agg = true;
+                                            break;
+                                        }
                                     }
+                                    if (!Agg){
+                                        lstIngresos.add(nuevoIngreso);
+                                    }else{
+                                        Toast.makeText(AdministrarIngresosActivity.this, "El ingreso ya existe", Toast.LENGTH_SHORT).show();
+                                    }
+                                } catch (Exception e) {
+                                    Toast.makeText(AdministrarIngresosActivity.this, "Error 😣", Toast.LENGTH_SHORT).show();
+                                    return;
                                 }
-                                if (!Agg){
-                                    lstIngresos.add(nuevoIngreso);
-                                }else{
-                                    Toast.makeText(AdministrarIngresosActivity.this, "El ingreso ya existe", Toast.LENGTH_SHORT).show();
-                                }
+                                // Agregar el nuevo ingreso a la lista
+
                                 // Mostrar el nuevo ingreso en la tabla
                                 mostrarDatosEnTabla(lstIngresos);
                                 // Guardar los ingresos en el archivo
@@ -203,6 +207,33 @@ public class AdministrarIngresosActivity extends AppCompatActivity {
 
     }
 
+    private void cargarCategoriasDesdeArchivo(String fileNameCat) {
+        try {
+            File fileIngreso = new File(getFilesDir(), fileNameCat);
+            if (fileIngreso.exists()) {
+                FileInputStream fis = new FileInputStream(fileIngreso);
+                ObjectInputStream oisIng = new ObjectInputStream(fis);
+
+                categorias = (ArrayList<String>) oisIng.readObject();
+                oisIng.close();
+                fis.close();
+
+            } else {
+                // Archivo no encontrado, inicializar lista vacía
+                categorias = new ArrayList<>();
+                    Toast.makeText(AdministrarIngresosActivity.this, "Por favor \nagregar categorias", Toast.LENGTH_LONG).show();
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            categorias = new ArrayList<>();
+            Toast.makeText(AdministrarIngresosActivity.this, "Por favor \nagregar categorias", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void actualizarSpinnerCategorias(Spinner spinner) {
+        ArrayAdapter<String> adapter = (ArrayAdapter<String>) spinner.getAdapter();
+        adapter.notifyDataSetChanged();
+    }
     private void mostrarDatosEnTabla(ArrayList<Ingreso> lstaing) {
         // Limpiar la tabla antes de agregar nuevos datos
         tableLayoutIngresos.removeAllViews();

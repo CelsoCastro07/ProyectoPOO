@@ -11,11 +11,10 @@
         android:layout_height="wrap_content"
         android:hint="Fecha de inicio (DD/MM/AAAA)" />
 
-    <EditText
-        android:id="@+id/editTextCategoriaDialog"
+    <Spinner
+        android:id="@+id/spinner_categorias"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Categoría" />
+        android:layout_height="wrap_content" />
 
     <EditText
         android:id="@+id/editTextValorNetoDialog"

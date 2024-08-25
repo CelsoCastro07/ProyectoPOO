@@ -78,14 +78,13 @@ private TransaccionControl inGascontrol;
                         break;
                     case "Administrar personas y bancos":
                         intent = new Intent(PaginaPrincipalActivity2.this, AdministrarPersonasYBancosActivity.class);
+                        break; */
+                    case "9.Reportes":
+                        intent = new Intent(PaginaPrincipalActivity2.this, ReporteActivity.class);
                         break;
-                    case "Reportes":
-                        intent = new Intent(PaginaPrincipalActivity2.this, ReportesActivity.class);
-                        break;
-                    case "Proyección de gastos":
+                    case "10.Proyección de gastos":
                         intent = new Intent(PaginaPrincipalActivity2.this, ProyeccionDeGastosActivity.class);
                         break;
-                         */
                     default:
                         return; // No hacer nada si la opción no coincide
                 }

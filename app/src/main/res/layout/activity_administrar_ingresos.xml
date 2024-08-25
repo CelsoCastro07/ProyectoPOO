@@ -100,7 +100,7 @@
     </ScrollView>
 
     <Button
-        android:id="@+id/buttonRegisIng"
+        android:id="@+id/buttonRegistrar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/registrar"
@@ -113,9 +113,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/eliminar"
-        app:layout_constraintStart_toEndOf="@+id/buttonRegisIng"
+        app:layout_constraintStart_toEndOf="@+id/buttonRegistrar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/buttonRegisIng"
+        app:layout_constraintBottom_toBottomOf="@id/buttonRegistrar"
 
         />
     <Button

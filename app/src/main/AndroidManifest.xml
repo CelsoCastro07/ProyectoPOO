@@ -13,17 +13,24 @@
         android:theme="@style/Theme.AppControlFinanzas"
         tools:targetApi="31">
         <activity
+            android:name=".AppPages.Administradores.ProyeccionDeGastosActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppControlFinanzas" />
+        <activity
+            android:name=".AppPages.Administradores.ReporteActivity"
+            android:exported="false" />
+        <activity
             android:name=".AppPages.Administradores.AdministrarCategoriasActivity"
             android:exported="false" />
         <activity
             android:name=".AppPages.Administradores.AdministrarGastosActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".AppPages.Administradores.AdministrarIngresosActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".AppPages.PaginaPrincipalActivity2"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".AppPages.logIn.MainActivity"
             android:exported="true">

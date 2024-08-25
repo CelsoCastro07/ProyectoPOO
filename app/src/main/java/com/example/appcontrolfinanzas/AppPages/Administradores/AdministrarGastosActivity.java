@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -47,6 +48,9 @@ public class AdministrarGastosActivity extends AppCompatActivity {
     private Button buttonRegisGas, buttonEliminarGas, buttonFinalizarGas;
     private CategoriaControl catControl;
     private ArrayList<Gasto> lstGasto;
+
+    private ArrayList<String> categorias;
+    public String fileNameCat = "categoriasGasto.txt";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +67,7 @@ public class AdministrarGastosActivity extends AppCompatActivity {
         buttonFinalizarGas =findViewById(R.id.buttonFinalizarGas);
 
         cargarGastosDesdeArchivo();
+        cargarCategoriasDesdeArchivo(fileNameCat);
 
         mostrarDatosEnTabla(lstGasto);
 
@@ -71,6 +76,12 @@ public class AdministrarGastosActivity extends AppCompatActivity {
             public void onClick(View v) {
                 LayoutInflater inflater = LayoutInflater.from(AdministrarGastosActivity.this);
                 View dialogView = inflater.inflate(R.layout.dialog_register_income, null);
+
+                Spinner spinnerCategoriaDialog = dialogView.findViewById(R.id.spinner_categorias);
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(AdministrarGastosActivity.this, android.R.layout.simple_spinner_item, categorias);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                spinnerCategoriaDialog.setAdapter(adapter);
 
                 // Crear el AlertDialog
                 AlertDialog.Builder builder = new AlertDialog.Builder(AdministrarGastosActivity.this);
@@ -81,14 +92,13 @@ public class AdministrarGastosActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 // Obtener los datos ingresados por el usuario
                                 editTextFechaInDialog = dialogView.findViewById(R.id.editTextFechaInDialog);
-                                editTextCategoriaDialog = dialogView.findViewById(R.id.editTextCategoriaDialog);
                                 editTextValorNetoDialog = dialogView.findViewById(R.id.editTextValorNetoDialog);
                                 editTextDescripDialog = dialogView.findViewById(R.id.editTextDescripcionDialog);
                                 editTextFechaFinDialog = dialogView.findViewById(R.id.editTextFechaFinDialog);
                                 spinnerRepeticionDialog = dialogView.findViewById(R.id.spinnerRepeticionDialog);
 
                                 String fechaInicio = editTextFechaInDialog.getText().toString();
-                                String categoria = editTextCategoriaDialog.getText().toString();
+                                String categoria = spinnerCategoriaDialog.getSelectedItem().toString();
                                 String valorNeto = editTextValorNetoDialog.getText().toString();
                                 String descripcion = editTextDescripDialog.getText().toString();
                                 String fechaFin = editTextFechaFinDialog.getText().toString();
@@ -99,34 +109,31 @@ public class AdministrarGastosActivity extends AppCompatActivity {
                                     case "por mes":
                                         repeticion = Repeticion.por_mes;
                                         break;
-                                    case "por semana":
-                                        repeticion = Repeticion.por_semana;
-                                        break;
-                                    case "por año":
-                                        repeticion = Repeticion.por_anio;
-                                        break;
-                                    case "por dia":
-                                        repeticion = Repeticion.por_dia;
-                                        break;
                                     // Agregar otros casos si es necesario
                                     default:
-                                        repeticion = Repeticion.no_definido;
+                                        repeticion = Repeticion.sin_repeticion;
                                         break;
                                 }
                                 // Crear un nuevo objeto Ingreso
-                                Gasto nuevoGasto = new Gasto(fechaInicio, categoria, Double.parseDouble(valorNeto), descripcion, fechaFin, repeticion);
-                                // Agregar el nuevo ingreso a la lista
-                                boolean Agg = false;
-                                for (Gasto ing:lstGasto) {
-                                    if (ing.equals(nuevoGasto)) {
-                                        Agg = true;
-                                        break;
+                                try {
+                                    Gasto nuevoGasto = new Gasto(fechaInicio, categoria, Double.parseDouble(valorNeto), descripcion, fechaFin, repeticion);
+
+                                    // Agregar el nuevo ingreso a la lista
+                                    boolean Agg = false;
+                                    for (Gasto ing : lstGasto) {
+                                        if (ing.equals(nuevoGasto)) {
+                                            Agg = true;
+                                            break;
+                                        }
                                     }
-                                }
-                                if (!Agg){
-                                    lstGasto.add(nuevoGasto);
-                                }else{
-                                    Toast.makeText(AdministrarGastosActivity.this, "El gasto ya existe", Toast.LENGTH_SHORT).show();
+                                    if (!Agg) {
+                                        lstGasto.add(nuevoGasto);
+                                    } else {
+                                        Toast.makeText(AdministrarGastosActivity.this, "El gasto ya existe", Toast.LENGTH_SHORT).show();
+                                    }
+                                }catch (Exception e){
+                                    Toast.makeText(AdministrarGastosActivity.this, "Error 😣", Toast.LENGTH_SHORT).show();
+                                    return;
                                 }
                                 // Mostrar el nuevo ingreso en la tabla
                                 mostrarDatosEnTabla(lstGasto);
@@ -199,6 +206,30 @@ public class AdministrarGastosActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void cargarCategoriasDesdeArchivo(String fileNameCat) {
+        try {
+            File fileIngreso = new File(getFilesDir(), fileNameCat);
+            if (fileIngreso.exists()) {
+                FileInputStream fis = new FileInputStream(fileIngreso);
+                ObjectInputStream oisIng = new ObjectInputStream(fis);
+
+                categorias = (ArrayList<String>) oisIng.readObject();
+                oisIng.close();
+                fis.close();
+
+            } else {
+                // Archivo no encontrado, inicializar lista vacía
+                categorias = new ArrayList<>();
+                Toast.makeText(AdministrarGastosActivity.this, "Por favor \nagregar categorias", Toast.LENGTH_LONG).show();
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            categorias = new ArrayList<>();
+            Toast.makeText(AdministrarGastosActivity.this, "Por favor \nagregar categorias", Toast.LENGTH_LONG).show();
+        }
+    }
+
     private void mostrarDatosEnTabla(ArrayList<Gasto> lstagas) {
         // Limpiar la tabla antes de agregar nuevos datos
         tableLayoutGastos.removeAllViews();

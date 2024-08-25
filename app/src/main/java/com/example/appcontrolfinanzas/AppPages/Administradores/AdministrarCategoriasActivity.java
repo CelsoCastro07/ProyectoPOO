@@ -145,7 +145,7 @@ public class AdministrarCategoriasActivity extends AppCompatActivity {
     public void agregarCategoriaIn(String cat) {
         if(!buscarCategoriaIn(cat)){
             catControl.getListaIngresos().add(cat);
-            guardarCategoriasEnArchivo();
+            guardarCategoriasInEnArchivo();
             Toast.makeText(this,cat + " ha sido agregada.",Toast.LENGTH_SHORT).show();
         }
         else{
@@ -156,7 +156,7 @@ public class AdministrarCategoriasActivity extends AppCompatActivity {
     public void agregarCategoriaGas(String cat){
         if(!buscarCategoriaGas(cat)){
             catControl.getListaGastos().add(cat);
-            guardarCategoriasEnArchivo();
+            guardarCategoriasGasEnArchivo();
             Toast.makeText(this,cat + " ha sido agregada.",Toast.LENGTH_SHORT).show();
         }
         else{
@@ -167,7 +167,7 @@ public class AdministrarCategoriasActivity extends AppCompatActivity {
     public void eliminarCategoriaIn(String cat){
         if(buscarCategoriaIn(cat)){
             catControl.getListaIngresos().remove(cat);
-            guardarCategoriasEnArchivo();
+            guardarCategoriasInEnArchivo();
             Toast.makeText(this,cat + " ha sido eliminada", Toast.LENGTH_SHORT).show();
         }
         else{
@@ -178,7 +178,7 @@ public class AdministrarCategoriasActivity extends AppCompatActivity {
     public void eliminarCategoriaGas(String cat){
         if(buscarCategoriaGas(cat)){
             catControl.getListaGastos().remove(cat);
-            guardarCategoriasEnArchivo();
+            guardarCategoriasGasEnArchivo();
             Toast.makeText(this,cat + " ha sido eliminada", Toast.LENGTH_SHORT).show();
         }
         else{
@@ -186,12 +186,25 @@ public class AdministrarCategoriasActivity extends AppCompatActivity {
         }
     }
 
-    private void guardarCategoriasEnArchivo() {
+    private void guardarCategoriasInEnArchivo() {
         try {
-            File file = new File(getFilesDir(), "categorias.txt");
+            File file = new File(getFilesDir(), "categoriasIngreso.txt");
             FileOutputStream fos = new FileOutputStream(file);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(catControl.getListaIngresos());
+            //oos.writeObject(catControl.getListaGastos());
+            oos.close();
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    private void guardarCategoriasGasEnArchivo() {
+        try {
+            File file = new File(getFilesDir(), "categoriasGasto.txt");
+            FileOutputStream fos = new FileOutputStream(file);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            //oos.writeObject(catControl.getListaIngresos());
             oos.writeObject(catControl.getListaGastos());
             oos.close();
             fos.close();
@@ -202,16 +215,24 @@ public class AdministrarCategoriasActivity extends AppCompatActivity {
 
     private void cargarCategoriasDesdeArchivo() {
         try {
-            File file = new File(getFilesDir(), "categorias.txt");
-            if (file.exists()) {
-                FileInputStream fis = new FileInputStream(file);
-                ObjectInputStream ois = new ObjectInputStream(fis);
-                ArrayList<String> ingresos = (ArrayList<String>) ois.readObject();
-                ArrayList<String> gastos = (ArrayList<String>) ois.readObject();
+            File fileIngreso = new File(getFilesDir(), "categoriasIngreso.txt");
+            File fileGasto = new File(getFilesDir(), "categoriasGasto.txt");
+            if (fileIngreso.exists() && fileGasto.exists()) {
+                FileInputStream fis = new FileInputStream(fileIngreso);
+                ObjectInputStream oisIng = new ObjectInputStream(fis);
+
+                FileInputStream fis2 = new FileInputStream(fileGasto);
+                ObjectInputStream oisGas = new ObjectInputStream(fis2);
+
+                ArrayList<String> ingresos = (ArrayList<String>) oisIng.readObject();
+                ArrayList<String> gastos = (ArrayList<String>) oisGas.readObject();
                 catControl.setListaIngresos(ingresos);
                 catControl.setListaGastos(gastos);
-                ois.close();
+                oisIng.close();
                 fis.close();
+
+                oisGas.close();
+                fis2.close();
             } else {
                 // Archivo no encontrado, inicializar listas vacías
                 catControl.setListaIngresos(new ArrayList<>());
@@ -221,7 +242,8 @@ public class AdministrarCategoriasActivity extends AppCompatActivity {
                 catControl.getListaIngresos().add("Bono solidario");
                 catControl.getListaGastos().add("Pagos");
                 catControl.getListaGastos().add("Alquiler");
-                guardarCategoriasEnArchivo();
+                guardarCategoriasInEnArchivo();
+                guardarCategoriasGasEnArchivo();
             }
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
