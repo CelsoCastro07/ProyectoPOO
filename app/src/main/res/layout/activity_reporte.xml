@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AppPages.Administradores.ReporteActivity">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="0dp"
+        android:layout_height="700dp"
+        android:src="@drawable/background_image6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textViewReporte"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="Reportes"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+    <androidx.cardview.widget.CardView
+        android:id = "@+id/selectIng"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginHorizontal="45dp"
+        android:layout_marginTop="60dp"
+        app:cardBackgroundColor="#61DCCA"
+        app:cardCornerRadius="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewReporte" >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="INGRESOS"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            android:textStyle="italic|bold" />
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipIngresos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkable="true" />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id = "@+id/selectGas"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginHorizontal="45dp"
+        android:layout_marginTop="60dp"
+        app:cardBackgroundColor="#61DCCA"
+        app:cardCornerRadius="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/selectIng" >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="GASTOS"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            android:textStyle="italic|bold" />
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipGastos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkable="true" />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonReporteMensual"
+        android:layout_width="109dp"
+        android:layout_height="70dp"
+        android:layout_marginBottom="160dp"
+        android:background="#61DCCA"
+        android:foregroundGravity="center"
+        android:gravity="center"
+        android:text="Mes\nActual"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/buttonReporteAnual"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="HardcodedText" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonReporteAnual"
+        android:layout_width="119dp"
+        android:layout_height="68dp"
+        android:layout_marginBottom="160dp"
+        android:background="#61DCCA"
+        android:text="Anual"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/buttonReporteMensual"
+        tools:ignore="HardcodedText" />
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
