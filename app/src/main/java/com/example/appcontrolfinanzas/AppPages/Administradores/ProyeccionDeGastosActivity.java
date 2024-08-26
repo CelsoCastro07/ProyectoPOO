@@ -66,7 +66,11 @@ public class ProyeccionDeGastosActivity extends AppCompatActivity {
                 TextView mes4 = dialogView.findViewById(R.id.Mes4);
 
 
-                proyeccionGastos(tableLayoutProyeccion, lstGasto, lstCat, mes1, mes2, mesActual, mes4);
+                try{proyeccionGastos(tableLayoutProyeccion, lstGasto, lstCat, mes1, mes2, mesActual, mes4);
+                }catch(Exception e){
+                    Toast.makeText(ProyeccionDeGastosActivity.this, "Error 🥶", Toast.LENGTH_SHORT).show();
+
+                }
             }
         });
 
