@@ -115,11 +115,18 @@ public class ReporteActivity extends AppCompatActivity {
                 TableLayout tableLayoutReporteAnual = dialogView.findViewById(R.id.tableLayoutReporteAnio);
 
                 if(tipoTransaccion.equalsIgnoreCase("Ingreso")){
-                    mostrarDatosDeReporteAnioIn(lstIngreso, tableLayoutReporteAnual);
+                    try{mostrarDatosDeReporteAnioIn(lstIngreso, tableLayoutReporteAnual);
+                    }catch(Exception e){
+                        Toast.makeText(ReporteActivity.this, "Error 🥶", Toast.LENGTH_SHORT).show();
+                    }
                 }
 
                 else if(tipoTransaccion.equalsIgnoreCase("Gasto")){
-                    mostrarDatosDeReporteAnioGasto(lstGasto, tableLayoutReporteAnual);
+                    try{
+                        mostrarDatosDeReporteAnioGasto(lstGasto, tableLayoutReporteAnual);
+                    }catch(Exception e){
+                        Toast.makeText(ReporteActivity.this, "Error 🥶", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
